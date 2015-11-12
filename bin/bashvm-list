@@ -8,8 +8,55 @@ remote_list() {
   done
 }
 
+default_version() {
+  local default=$(readlink $BASHVM_HOME/bin/bash)
+  default=${default#../}
+  default=${default%/bin/bash}
+  echo $default
+}
+
+current_version() {
+  local path_array
+  IFS=: path_array=($PATH)
+  local path
+  for path in ${path_array[@]}; do
+    if [[ $path =~ $BASHVM_HOME/bash- ]]; then
+      path=${path#$BASHVM_HOME/}
+      path=${path%/bin}
+      echo $path
+      return 0
+    fi
+  done
+  return 1
+}
+
+local_list() {
+  local default=$(default_version)
+  local current=$(current_version)
+  local fullpath;
+  for fullpath in $(ls -d $BASHVM_HOME/bash-*); do
+    local version=$(basename $fullpath)
+    if [[ "$version" == "$current" && "$version" == "$default" ]]; then
+      echo "=* $version"
+    elif [[ "$version" == "$default" ]]; then
+      echo " * $version"
+    elif [[ "$version" == "$current" ]]; then
+      echo "=> $version"
+    else
+      echo "   $version"
+    fi
+  done
+  echo
+  echo "# => - current"
+  echo "# =* - current && default"
+  echo "#  * - default"
+}
+
 case "$1" in
 remote)
   remote_list
+  ;;
+local)
+  local_list
   ;;
 esac
