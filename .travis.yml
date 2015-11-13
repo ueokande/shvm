@@ -1,0 +1,9 @@
+sudo: false
+language: bash
+before_install:
+- mkdir $HOME/bin
+- curl -o $HOME/bin/bashtub https://raw.githubusercontent.com/ueokande/bashtub/master/bin/bashtub
+- chmod +x $HOME/bin/bashtub
+- export PATH="$HOME/bin:$PATH"
+script:
+- bashtub `find test -name '*_test.sh'`
