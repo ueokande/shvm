@@ -17,3 +17,17 @@ testcase_version_option() {
   assert_match "version" "$stdout"
   assert_equal 0 $status
 }
+
+testcase_unrecognized_option() {
+  subject bashvm --sushi
+  assert_match "Unrecognized option" "$stderr"
+  assert_match "--sushi" "$stderr"
+  assert_equal 1 $status
+}
+
+testcase_unrecognized_command() {
+  subject bashvm sushi
+  assert_match "Unrecognized command" "$stderr"
+  assert_match "sushi" "$stderr"
+  assert_equal 1 $status
+}

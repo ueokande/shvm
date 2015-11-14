@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+die() {
+  echo "$@" >&2
+  exit 1
+}
+export -f die
+
 help() {
   echo -n "\
 Usage: bashvm [--help] <command> [<args>]
@@ -46,5 +52,12 @@ help)
 --version)
   shift
   version
+  ;;
+-*|--*)
+  die "Unrecognized option: $1"
+  ;;
+*)
+  die "Unrecognized command: $1"
+  exit 1
   ;;
 esac
