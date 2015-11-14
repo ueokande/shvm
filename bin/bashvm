@@ -1,1 +1,50 @@
 #!/usr/bin/env bash
+
+help() {
+  echo -n "\
+Usage: bashvm [--help] <command> [<args>]
+
+The sub-commands for bashvm:
+
+    list        Show currently available bash'es.
+    use         Setup current shell to use a specific bash version.
+    install     Install bash version
+    uninstall   Uninstall bash version
+    help        Display helps
+"
+}
+
+version() {
+  echo "bashvm version 0.0.0"
+}
+
+case "$1" in
+list)
+  shift
+  bashvm-list "$@"
+  ;;
+use)
+  shift
+  bashvm-use "$@"
+  ;;
+install)
+  shift
+  bashvm-install "$@"
+  ;;
+uninstall)
+  shift
+  bashvm-uninstall"$@"
+  ;;
+help)
+  shift
+  help
+  ;;
+--help)
+  shift
+  help
+  ;;
+--version)
+  shift
+  version
+  ;;
+esac
