@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+export BASHVM_HOME=${BASHVM_HOME:-$HOME/.bashvm}
+
 die() {
   echo "$@" >&2
   exit 1
