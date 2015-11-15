@@ -35,6 +35,10 @@ use)
   shift
   bashvm-use "$@"
   ;;
+fetch)
+  shift
+  bashvm-fetch "$@"
+  ;;
 install)
   shift
   bashvm-install "$@"
