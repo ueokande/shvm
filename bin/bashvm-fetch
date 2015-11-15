@@ -1,4 +1,28 @@
 #!/usr/bin/env bash
 
-echo Invoked $0, but not implemented >&2
-exit 1
+fetch() {
+  tmpfile=$(mktemp)
+  echo "Fetching bash-${1}..."
+  curl -o"$tmpfile"  --progress-bar "ftp://ftp.gnu.org/gnu/bash/bash-${1}.tar.gz" || exit 1
+  tar zxf "$tmpfile" -C $BASHVM_HOME/src
+  rm "$tmpfile"
+}
+
+help() {
+  echo -n "\
+Usage: bashvm fetch <version>
+"
+}
+
+case "$1" in
+--help)
+  shift
+  help
+  ;;
+-*|--*)
+  die "Unrecognized option: $1"
+  ;;
+*)
+  fetch ${1#bash-}
+  ;;
+esac
