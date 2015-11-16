@@ -63,6 +63,11 @@ Avairable commands for bashvm list
 "
 }
 
+if [[ $# -eq 0 ]]; then
+  local_list
+  exit 0
+fi
+
 case "$1" in
 remote)
   remote_list

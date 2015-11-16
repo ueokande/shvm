@@ -17,3 +17,9 @@ testcase_unrecognized_option() {
   assert_match 'Unrecognized command' "$stderr"
   assert_equal 1 $status
 }
+
+testcase_unrecognized_option() {
+  subject bashvm list sushi
+  assert_match 'Unrecognized command' "$stderr"
+  assert_equal 1 $status
+}
