@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 
 fetch() {
+  if [[ -d "$BASHVM_HOME/src/bash-${1}" ]]; then
+    echo "The source of bash-${1} is already exists"
+    return 0
+  fi
+
   tmpfile=$(mktemp)
   echo "Fetching bash-${1}..."
   curl -o"$tmpfile"  --progress-bar "ftp://ftp.gnu.org/gnu/bash/bash-${1}.tar.gz" || exit 1
