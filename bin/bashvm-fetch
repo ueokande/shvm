@@ -1,9 +1,14 @@
 #!/usr/bin/env bash
 
 fetch() {
+  if [[ -z $force && -d "$BASHVM_HOME/src/bash-${bash_version}" ]]; then
+    echo "The source of bash-${bash_version} is already exists"
+    return 0
+  fi
+
   tmpfile=$(mktemp)
-  echo "Fetching bash-${1}..."
-  curl -o"$tmpfile"  --progress-bar "ftp://ftp.gnu.org/gnu/bash/bash-${1}.tar.gz" || exit 1
+  echo "Fetching bash-${bash_version}..."
+  curl -o"$tmpfile"  --progress-bar "ftp://ftp.gnu.org/gnu/bash/bash-${bash_version}.tar.gz" || exit 1
   tar zxf "$tmpfile" -C $BASHVM_HOME/src
   rm "$tmpfile"
 }
@@ -14,15 +19,31 @@ Usage: bashvm fetch <version>
 "
 }
 
-case "$1" in
---help)
+force=
+bash_version=
+
+while test $# != 0; do
+  case "$1" in
+  --help)
+    help
+    exit 0
+    ;;
+  -f|--force)
+    force=t
+    ;;
+  -*|--*)
+    die "Unrecognized option: $1"
+    ;;
+  *)
+    bash_version="${1#bash-}"
+    ;;
+  esac
   shift
+done
+
+if [ -z "$bash_version" ]; then
   help
-  ;;
--*|--*)
-  die "Unrecognized option: $1"
-  ;;
-*)
-  fetch ${1#bash-}
-  ;;
-esac
+  exit 1
+fi
+
+fetch
