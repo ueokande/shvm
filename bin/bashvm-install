@@ -1,4 +1,58 @@
 #!/usr/bin/env bash
 
-echo Invoked $0, but not implemented >&2
-exit 1
+install() {
+  bashvm fetch $bash_version || exit 1
+
+  builddir=$(mktemp -d)
+  pushd . >/dev/null
+  cd $builddir
+
+  echo "Checking build system..."
+  "$BASHVM_HOME/src/bash-${bash_version}/configure" \
+    --prefix=$BASHVM_HOME/bash-${bash_version} 2>&1 >/dev/null \
+    || die "Failed to configure bash-${bash_version}.
+Make sure that '$BASHVM_HOME/src/bash-${bash_version} --prefix=$BASHVM_HOME/bash-${bash_version}' \
+succeeds before install"
+
+  echo "Building bash-${bash_version}..."
+  make -C $builddir install >/dev/null 2>&1 \
+    || die "Failed to build bash-${bash_version}.
+Make sure that 'make -C $builddir install' \
+succeeds before install"
+
+  rm -rf $builddir
+  popd >/dev/null
+  echo "bash-${bash_version} installed"
+}
+
+help() {
+  echo -n "\
+Usage: bashvm install <version>
+"
+}
+
+force=
+bash_version=
+
+while test $# != 0; do
+  case "$1" in
+  --help)
+    help
+    exit 0
+    ;;
+  -*|--*)
+    die "Unrecognized option: $1"
+    ;;
+  *)
+    bash_version="${1#bash-}"
+    ;;
+  esac
+  shift
+done
+
+if [ -z "$bash_version" ]; then
+  help
+  exit 1
+fi
+
+install
