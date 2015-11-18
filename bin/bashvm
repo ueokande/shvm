@@ -45,7 +45,7 @@ install)
   ;;
 uninstall)
   shift
-  bashvm-uninstall"$@"
+  bashvm-uninstall "$@"
   ;;
 help)
   shift

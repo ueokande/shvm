@@ -1,4 +1,42 @@
 #!/usr/bin/env bash
 
-echo Invoked $0, but not implemented >&2
-exit 1
+uninstall() {
+  if ! [[ -d "$BASHVM_HOME/bash-${bash_version}" ]]; then
+    echo "bash-${bash_version} : already gone"
+    return 1
+  fi
+
+  echo "bash-${bash_version} : removing.."
+  rm -rf $BASHVM_HOME/bash-${bash_version}
+}
+
+help() {
+  echo -n "\
+Usage: bashvm uninstall <version>
+"
+}
+
+bash_version=
+
+while test $# != 0; do
+  case "$1" in
+  --help)
+    help
+    exit 0
+    ;;
+  -*|--*)
+    die "Unrecognized option: $1"
+    ;;
+  *)
+    bash_version="${1#bash-}"
+    ;;
+  esac
+  shift
+done
+
+if [ -z "$bash_version" ]; then
+  help
+  exit 1
+fi
+
+uninstall
