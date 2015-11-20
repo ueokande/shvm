@@ -8,20 +8,6 @@ die() {
 }
 export -f die
 
-help() {
-  echo -n "\
-Usage: bashvm [--help] <command> [<args>]
-
-The sub-commands for bashvm:
-
-    list        Show currently available bash'es.
-    use         Setup current shell to use a specific bash version.
-    install     Install bash version
-    uninstall   Uninstall bash version
-    help        Display helps
-"
-}
-
 version() {
   echo "bashvm version 0.0.0"
 }
@@ -49,11 +35,11 @@ uninstall)
   ;;
 help)
   shift
-  help
+  bashvm-help "$@"
   ;;
 --help)
   shift
-  help
+  bashvm-help
   ;;
 --version)
   shift

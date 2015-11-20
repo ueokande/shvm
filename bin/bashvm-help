@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+
+exec_help() {
+  if (hash bashvm-${target} 2>/dev/null) then
+    bashvm-${target} --help
+  else
+    echo "\
+Usage: bashvm [--help] <command> [<args>]
+
+The sub-commands for bashvm:
+
+    list        Show currently available bash'es.
+    use         Setup current shell to use a specific bash version.
+    install     Install bash version
+    uninstall   Uninstall bash version
+    help        Display helps"
+
+    [[ -z "$target" ]] || exit 1
+  fi
+}
+
+help() {
+  echo "Usage: bashvm help <command>"
+}
+
+target=
+
+while test $# != 0; do
+  case "$1" in
+  --help)
+    help
+    exit 0
+    ;;
+  -*|--*)
+    die "Unrecognized option: $1"
+    ;;
+  *)
+    target="$1"
+    ;;
+  esac
+  shift
+done
+
+exec_help
