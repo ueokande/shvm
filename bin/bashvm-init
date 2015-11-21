@@ -64,3 +64,4 @@ bashvm() {
     ;;
   esac
 }
+export -f bashvm
