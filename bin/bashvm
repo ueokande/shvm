@@ -1,51 +1,11 @@
 #!/usr/bin/env bash
 
-export BASHVM_HOME=${BASHVM_HOME:-$HOME/.bashvm}
+cat <<EOS
+bashvm is invoked as command.  The installation is failed.
+Add the following line to $HOME/.bash_profile, and restart your shell.
 
-bashvm_die() {
-  echo "$@" >&2
-  exit 1
-}
-export -f bashvm_die
+  source $BASHVM_HOME/bin/init-bashvm
 
-case "$1" in
-list)
-  shift
-  bashvm-list "$@"
-  ;;
-use)
-  shift
-  bashvm-use "$@"
-  ;;
-fetch)
-  shift
-  bashvm-fetch "$@"
-  ;;
-install)
-  shift
-  bashvm-install "$@"
-  ;;
-uninstall)
-  shift
-  bashvm-uninstall "$@"
-  ;;
-help)
-  shift
-  bashvm-help "$@"
-  ;;
---help)
-  shift
-  bashvm-help
-  ;;
---version)
-  shift
-  echo "bashvm version 0.0.0"
-  ;;
--*|--*)
-  bashvm_die "Unrecognized option: $1"
-  ;;
-*)
-  bashvm_die "Unrecognized command: $1"
-  exit 1
-  ;;
-esac
+EOS
+
+exit 1

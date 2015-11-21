@@ -1,1 +1,1 @@
-PATH="$(readlink -f $(dirname $BASH_SOURCE)/../bin):$PATH"
+source $(dirname $BASH_SOURCE)/../bin/bashvm-init

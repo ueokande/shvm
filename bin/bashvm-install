@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 install() {
-  bashvm fetch $bash_version || exit 1
+  bashvm-fetch $bash_version || exit 1
 
   builddir=$(mktemp -d)
   pushd . >/dev/null
