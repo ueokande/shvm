@@ -55,13 +55,12 @@ bashvm() {
     echo "bashvm version 0.0.0"
     ;;
   -*|--*)
-    bashvm_die "Unrecognized option: $1"
+    echo "Unrecognized option: $1" >&2
+    return 1
     ;;
   *)
-    bashvm_die "Unrecognized command: $1"
-    PATH=$oldPATH
-    exit 1
+    echo "Unrecognized command: $1" >&2
+    return 1
     ;;
   esac
 }
-
