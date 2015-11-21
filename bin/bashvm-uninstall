@@ -25,7 +25,7 @@ while test $# != 0; do
     exit 0
     ;;
   -*|--*)
-    die "Unrecognized option: $1"
+    bashvm_die "Unrecognized option: $1"
     ;;
   *)
     bash_version="${1#bash-}"

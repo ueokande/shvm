@@ -2,15 +2,11 @@
 
 export BASHVM_HOME=${BASHVM_HOME:-$HOME/.bashvm}
 
-die() {
+bashvm_die() {
   echo "$@" >&2
   exit 1
 }
-export -f die
-
-version() {
-  echo "bashvm version 0.0.0"
-}
+export -f bashvm_die
 
 case "$1" in
 list)
@@ -43,13 +39,13 @@ help)
   ;;
 --version)
   shift
-  version
+  echo "bashvm version 0.0.0"
   ;;
 -*|--*)
-  die "Unrecognized option: $1"
+  bashvm_die "Unrecognized option: $1"
   ;;
 *)
-  die "Unrecognized command: $1"
+  bashvm_die "Unrecognized command: $1"
   exit 1
   ;;
 esac
