@@ -6,6 +6,11 @@ setup() {
 
   mkdir $BASHVM_HOME/bash-{X.0,X.1,Y.0}/
   mkdir $BASHVM_HOME/bin
+  local current_bash_path=$(which bash)
+  for dir in $BASHVM_HOME/bash-*; do
+    mkdir ${dir}/bin
+    ln -s $current_bash_path ${dir}/bin/bash
+  done
   ln -s  ../bash-X.1/bin/bash $BASHVM_HOME/bin/bash
 }
 
@@ -23,11 +28,6 @@ testcase_show_list_in_local() {
 testcase_show_default_bashtub() {
   subject bashvm list local
   assert_match '\* bash-X.1' "$stdout"
-}
-
-testcase_show_default_bashtub() {
-  PATH="$BASHVM_HOME/bash-Y.0/bin:$PATH" subject bashvm list local
-  assert_match '=> bash-Y.0' "$stdout"
 }
 
 testcase_show_curren_and_default_bashtub() {
