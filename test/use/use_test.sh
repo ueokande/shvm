@@ -6,6 +6,7 @@ setup() {
 
   mkdir $BASHVM_HOME/bash-{X.0,X.1,Y.0}/
   mkdir $BASHVM_HOME/bin
+  mkdir $BASHVM_HOME/src
   local current_bash_path=$(which bash)
   for dir in $BASHVM_HOME/bash-*; do
     mkdir ${dir}/bin
@@ -31,4 +32,13 @@ testcase_use_as_default() {
   assert_match 'bash-Y.0' "$PATH"
   assert_match 'bash-Y.0' "$(which bash)"
   assert_match 'bash-Y.0' $(readlink $BASHVM_HOME/bin/bash)
+}
+
+testcase_use_invalid_version() {
+  assert_false bashvm use su.shi
+}
+
+testcase_use_with_install() {
+  bashvm use 3.2 --install >/dev/null 2>&1
+  assert_match 'bash-3.2' "$(which bash)"
 }

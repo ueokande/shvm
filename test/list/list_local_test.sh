@@ -30,11 +30,6 @@ testcase_show_default_bashtub() {
   assert_match '\* bash-X.1' "$stdout"
 }
 
-testcase_show_default_bashtub() {
-  PATH="$BASHVM_HOME/bash-Y.0/bin:$PATH" subject bashvm list local
-  assert_match '=> bash-Y.0' "$stdout"
-}
-
 testcase_show_curren_and_default_bashtub() {
   PATH="$BASHVM_HOME/bash-X.1/bin:$PATH" subject bashvm list local
   assert_match '=\* bash-X.1' "$stdout"
