@@ -1,12 +1,7 @@
 source $(dirname $BASH_SOURCE)/../test_helper.sh
 
 setup() {
-  tmpdir=$(mktemp -d)
-  export BASHVM_HOME=$tmpdir
-}
-
-teardown() {
-  rm -rf "$tmpdir"
+  create_bashvm_home
 }
 
 testcase_uninstall_installed_version() {
