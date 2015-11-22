@@ -20,6 +20,68 @@ bashvm_die() {
 }
 export -f bashvm_die
 
+bashvm_use() {
+  local install=
+  local default=
+  local bash_version=
+
+  while test $# != 0; do
+    case "$1" in
+    --help)
+      bashvm-use --help
+      return 0
+      ;;
+    --install)
+      install=t
+      ;;
+    --default)
+      default=t
+      ;;
+    -*|--*)
+      echo "Unrecognized option: $1" >&2
+      return 1
+      ;;
+    *)
+      bash_version="${1#bash-}"
+      ;;
+    esac
+    shift
+  done
+
+  if [ -z "$bash_version" ]; then
+    bashvm-use --help
+    return 1
+  fi
+
+  [[ -n "$install" ]] && bashvm-install "$bash_version"
+
+  if ! [[ -d "$BASHVM_HOME/bash-${bash_version}" ]]; then
+    echo "Unknown bash version: bash-${bash_version}." >&2
+    return 1
+  fi
+
+  if [[ -n "$default" ]]; then
+    test -h "$BASHVM_HOME/bin/bash" && unlink "$BASHVM_HOME/bin/bash"
+    ln -s "../bash-$bash_version/bin/bash" "$BASHVM_HOME/bin/bash"
+  fi
+
+  local found=
+  for path in ${PATH//:/ }; do
+    if [[ "$path" =~ "$BASHVM_HOME/bash-" ]]; then
+      found=t
+      break;
+    fi
+  done
+  if [[ -z $found ]]; then
+    export PATH="$BASHVM_HOME/bash-${bash_version}/bin:$PATH"
+  else
+    export PATH="${PATH/$path/$BASHVM_HOME/bash-${bash_version}/bin}"
+  fi
+
+  echo "Switched to bash-${bash_version}"
+}
+export -f bashvm_use
+
 bashvm() {
   case "$1" in
   list)
@@ -28,7 +90,7 @@ bashvm() {
     ;;
   use)
     shift
-    bashvm-use "$@"
+    bashvm_use "$@"
     ;;
   fetch)
     shift
