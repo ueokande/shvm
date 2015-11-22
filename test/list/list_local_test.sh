@@ -6,9 +6,10 @@ setup() {
 
   mkdir $BASHVM_HOME/bash-{X.0,X.1,Y.0}/
   mkdir $BASHVM_HOME/bin
+  local current_bash_path=$(which bash)
   for dir in $BASHVM_HOME/bash-*; do
     mkdir ${dir}/bin
-    ln -s /usr/bin/bash ${dir}/bin/bash
+    ln -s $current_bash_path ${dir}/bin/bash
   done
   ln -s  ../bash-X.1/bin/bash $BASHVM_HOME/bin/bash
 }
