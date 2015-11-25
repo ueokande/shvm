@@ -1,14 +1,7 @@
 source $(dirname $BASH_SOURCE)/../test_helper.sh
 
 setup() {
-  tmpdir=$(mktemp -d)
-  export BASHVM_HOME=$tmpdir
-
-  mkdir $BASHVM_HOME/src
-}
-
-teardown() {
-  rm -rf "$tmpdir"
+  create_bashvm_home
 }
 
 testcase_fetch_valid_version() {
@@ -21,13 +14,12 @@ testcase_fetch_invalid_version() {
 }
 
 testcase_exit_when_source_already_exist() {
-  mkdir -p $BASHVM_HOME/src/bash-9.9
-  subject bashvm fetch 9.9
+  subject bashvm fetch X.0
   assert_match 'already exists' "$stdout"
 }
 
 testcase_fetch_force() {
-  mkdir -p $BASHVM_HOME/src/bash-3.2
-  subject bashvm fetch --force 3.2
-  assert_true test -f "$BASHVM_HOME/src/bash-3.2/configure"
+  mkdir -p $BASHVM_HOME/src/bash-4.0
+  subject bashvm fetch --force 4.0
+  assert_true test -f "$BASHVM_HOME/src/bash-4.0/configure"
 }

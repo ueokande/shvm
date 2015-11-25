@@ -1,21 +1,7 @@
 source $(dirname $BASH_SOURCE)/../test_helper.sh
 
 setup() {
-  tmpdir=$(mktemp -d)
-  export BASHVM_HOME=$tmpdir
-
-  mkdir $BASHVM_HOME/bash-{X.0,X.1,Y.0}/
-  mkdir $BASHVM_HOME/bin
-  local current_bash_path=$(which bash)
-  for dir in $BASHVM_HOME/bash-*; do
-    mkdir ${dir}/bin
-    ln -s $current_bash_path ${dir}/bin/bash
-  done
-  ln -s  ../bash-X.1/bin/bash $BASHVM_HOME/bin/bash
-}
-
-teardown() {
-  rm -rf "$tmpdir"
+  create_bashvm_home
 }
 
 testcase_show_list_in_local() {
