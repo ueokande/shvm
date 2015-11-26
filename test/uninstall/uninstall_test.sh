@@ -5,9 +5,9 @@ setup() {
 }
 
 testcase_uninstall_installed_version() {
-  mkdir $BASHVM_HOME/bash-X.Y
+  mkdir $BASHVM_HOME/usr/bash-X.Y
   subject bashvm uninstall X.Y
-  assert_false test -d "$BASHVM_HOME/bash-X.Y"
+  assert_false test -d "$BASHVM_HOME/usr/bash-X.Y"
 }
 
 testcase_uninstall_gone_version() {

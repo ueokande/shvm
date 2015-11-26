@@ -6,7 +6,7 @@ setup() {
 
 testcase_install() {
   subject bashvm install 4.0
-  assert_true test -d "$BASHVM_HOME/bash-4.0"
+  assert_true test -d "$BASHVM_HOME/usr/bash-4.0"
   assert_equal 0 $status
 }
 

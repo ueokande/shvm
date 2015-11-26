@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
 uninstall() {
-  if ! [[ -d "$BASHVM_HOME/bash-${bash_version}" ]]; then
+  if ! [[ -d "$BASHVM_HOME/usr/bash-${bash_version}" ]]; then
     echo "bash-${bash_version} : already gone"
     return 1
   fi
 
   echo "bash-${bash_version} : removing.."
-  rm -rf $BASHVM_HOME/bash-${bash_version}
+  rm -rf $BASHVM_HOME/usr/bash-${bash_version}
 }
 
 help() {
