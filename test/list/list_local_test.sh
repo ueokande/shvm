@@ -17,6 +17,6 @@ testcase_show_default_bashtub() {
 }
 
 testcase_show_curren_and_default_bashtub() {
-  PATH="$BASHVM_HOME/bash-X.1/bin:$PATH" subject bashvm list local
+  PATH="$BASHVM_HOME/usr/bash-X.1/bin:$PATH" subject bashvm list local
   assert_match '=\* bash-X.1' "$stdout"
 }

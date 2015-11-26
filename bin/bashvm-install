@@ -9,9 +9,9 @@ install() {
 
   echo "Checking build system..."
   "$BASHVM_HOME/src/bash-${bash_version}/configure" \
-    --prefix=$BASHVM_HOME/bash-${bash_version} 2>&1 >/dev/null \
+    --prefix=$BASHVM_HOME/usr/bash-${bash_version} 2>&1 >/dev/null \
     || bashvm_die "Failed to configure bash-${bash_version}.
-Make sure that '$BASHVM_HOME/src/bash-${bash_version} --prefix=$BASHVM_HOME/bash-${bash_version}' \
+Make sure that '$BASHVM_HOME/src/bash-${bash_version} --prefix=$BASHVM_HOME/usr/bash-${bash_version}' \
 succeeds before install"
 
   echo "Building bash-${bash_version}..."

@@ -10,7 +10,7 @@ remote_list() {
 
 default_version() {
   local default=$(readlink $BASHVM_HOME/bin/bash)
-  default=${default#../}
+  default=${default#../usr/}
   default=${default%/bin/bash}
   echo $default
 }
@@ -25,7 +25,7 @@ current_version() {
     default_version
   else
     # current version is temporary changed
-    local current=${current_bash_path#$BASHVM_HOME/}
+    local current=${current_bash_path#$BASHVM_HOME/usr/}
     current=${current%/bin/bash}
     echo $current
   fi
@@ -36,7 +36,7 @@ local_list() {
   local current=$(current_version)
   local fullpath;
   echo
-  for fullpath in $(ls -d $BASHVM_HOME/bash-*); do
+  for fullpath in $(ls -d $BASHVM_HOME/usr/bash-*); do
     local version=$(basename $fullpath)
     if [[ "$version" == "$current" && "$version" == "$default" ]]; then
       echo "=* $version"
