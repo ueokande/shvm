@@ -1,9 +1,5 @@
 source $(dirname $BASH_SOURCE)/../test_helper.sh
 
-setup() {
-  create_bashvm_home
-}
-
 testcase_show_list_in_local() {
   subject bashvm list local
   assert_match 'X.0' "$stdout"

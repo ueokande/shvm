@@ -1,9 +1,5 @@
 source $(dirname $BASH_SOURCE)/../test_helper.sh
 
-setup() {
-  create_bashvm_home
-}
-
 testcase_use_temporary() {
   bashvm use X.0 >/dev/null
 
