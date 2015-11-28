@@ -12,7 +12,6 @@ testcase_use_as_default() {
 
   assert_match 'bash-Y.0' "$PATH"
   assert_match 'bash-Y.0' "$(which bash)"
-  assert_match 'bash-Y.0' $(readlink $BASHVM_HOME/bin/bash)
 }
 
 testcase_use_invalid_version() {

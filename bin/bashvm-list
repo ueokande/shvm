@@ -8,44 +8,35 @@ remote_list() {
   done
 }
 
-default_version() {
-  local default=$(readlink $BASHVM_HOME/bin/bash)
-  default=${default#../usr/}
-  default=${default%/bin/bash}
-  echo $default
-}
-
 current_version() {
   local current_bash_path=$(which bash)
-  if ! [[ "$current_bash_path" =~ $BASHVM_HOME ]]; then
-    # system version such as /usr/bin/bash
-    return
-  elif [[ "$current_bash_path" = $BASHVM_HOME/bin/bash ]]; then
-    # current version = default version
-    default_version
-  else
-    # current version is temporary changed
-    local current=${current_bash_path#$BASHVM_HOME/usr/}
+  if [[ "$current_bash_path" =~ $BASHVM_HOME/usr/bash- ]]; then
+    # current version is in bashvm
+    local current=${current_bash_path#$BASHVM_HOME/usr/bash-}
     current=${current%/bin/bash}
     echo $current
+  else
+    # current version is system
+    echo 'system'
   fi
 }
 
 local_list() {
-  local default=$(default_version)
   local current=$(current_version)
   local fullpath;
   echo
   for fullpath in $(ls -d $BASHVM_HOME/usr/bash-*); do
     local version=$(basename $fullpath)
-    if [[ "$version" == "$current" && "$version" == "$default" ]]; then
-      echo "=* $version"
-    elif [[ "$version" == "$default" ]]; then
-      echo " * $version"
+    version=${version#bash-}
+    echo "$version == $current && $version == $bashvm_default_version"
+    if [[ "$version" == "$current" && "$version" == "$bashvm_default_version" ]]; then
+      echo "=* bash-$version"
+    elif [[ "$version" == "$bashvm_default_version" ]]; then
+      echo " * bash-$version"
     elif [[ "$version" == "$current" ]]; then
-      echo "=> $version"
+      echo "=> bash-$version"
     else
-      echo "   $version"
+      echo "   bash-$version"
     fi
   done
   echo

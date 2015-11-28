@@ -11,15 +11,16 @@ EOS
   exit 1
 fi
 
-export BASHVM_HOME=${BASHVM_HOME:-$HOME/.bashvm}
-export PATH="$(readlink -f $(dirname $BASH_SOURCE)):$PATH"
-export bashvm_original_path=$PATH
-
 bashvm_die() {
   echo "$@" >&2
   exit 1
 }
 export -f bashvm_die
+
+bashvm_save_config() {
+  declare -p bashvm_default_version >$BASHVM_HOME/config
+}
+export -f bashvm_save_config
 
 bashvm_use() {
   local install=
@@ -56,17 +57,21 @@ bashvm_use() {
 
   [[ -n "$install" ]] && bashvm-install "$bash_version"
 
-  if ! [[ -d "$BASHVM_HOME/usr/bash-${bash_version}" ]]; then
+  if ! [[ -d "$BASHVM_HOME/usr/bash-${bash_version}" || ${bash_version} = 'system' ]]; then
     echo "Unknown bash version: bash-${bash_version}." >&2
     return 1
   fi
 
   if [[ -n "$default" ]]; then
-    test -h "$BASHVM_HOME/bin/bash" && unlink "$BASHVM_HOME/bin/bash"
-    ln -s "../usr/bash-$bash_version/bin/bash" "$BASHVM_HOME/bin/bash"
+    bashvm_default_version=$bash_version
+    bashvm_save_config
   fi
 
-  export PATH="$BASHVM_HOME/usr/bash-${bash_version}/bin:$bashvm_original_path"
+  if [[ $bash_version = 'system' ]]; then
+    export PATH=$bashvm_original_path
+  else
+    export PATH="$BASHVM_HOME/usr/bash-${bash_version}/bin:$bashvm_original_path"
+  fi
 
   echo "Switched to bash-${bash_version}"
 }
@@ -117,3 +122,14 @@ bashvm() {
   esac
 }
 export -f bashvm
+
+export BASHVM_HOME=${BASHVM_HOME:-$HOME/.bashvm}
+PATH="$(readlink -f $(dirname $BASH_SOURCE)):$PATH"
+
+test -f $BASHVM_HOME/config && source $BASHVM_HOME/config
+export bashvm_default_version=${bashvm_default_version:-system}
+bashvm_save_config
+
+bashvm_original_path=$PATH
+
+bashvm use $bashvm_default_version >/dev/null
