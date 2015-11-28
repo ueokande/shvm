@@ -13,6 +13,7 @@ fi
 
 export BASHVM_HOME=${BASHVM_HOME:-$HOME/.bashvm}
 export PATH="$(readlink -f $(dirname $BASH_SOURCE)):$PATH"
+export bashvm_original_path=$PATH
 
 bashvm_die() {
   echo "$@" >&2
@@ -65,18 +66,7 @@ bashvm_use() {
     ln -s "../usr/bash-$bash_version/bin/bash" "$BASHVM_HOME/bin/bash"
   fi
 
-  local found=
-  for path in ${PATH//:/ }; do
-    if [[ "$path" =~ "$BASHVM_HOME/usr/bash-" ]]; then
-      found=t
-      break;
-    fi
-  done
-  if [[ -z $found ]]; then
-    export PATH="$BASHVM_HOME/usr/bash-${bash_version}/bin:$PATH"
-  else
-    export PATH="${PATH/$path/$BASHVM_HOME/usr/bash-${bash_version}/bin}"
-  fi
+  export PATH="$BASHVM_HOME/usr/bash-${bash_version}/bin:$bashvm_original_path"
 
   echo "Switched to bash-${bash_version}"
 }
