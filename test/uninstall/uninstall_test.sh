@@ -1,9 +1,5 @@
 source $(dirname $BASH_SOURCE)/../test_helper.sh
 
-setup() {
-  create_bashvm_home
-}
-
 testcase_uninstall_installed_version() {
   mkdir $BASHVM_HOME/usr/bash-X.Y
   subject bashvm uninstall X.Y

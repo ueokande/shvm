@@ -1,9 +1,5 @@
 source $(dirname $BASH_SOURCE)/../test_helper.sh
 
-setup() {
-  create_bashvm_home
-}
-
 testcase_install() {
   subject bashvm install 4.0
   assert_true test -d "$BASHVM_HOME/usr/bash-4.0"

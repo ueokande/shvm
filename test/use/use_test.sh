@@ -1,9 +1,5 @@
 source $(dirname $BASH_SOURCE)/../test_helper.sh
 
-setup() {
-  create_bashvm_home
-}
-
 testcase_use_temporary() {
   bashvm use X.0 >/dev/null
 
@@ -16,7 +12,6 @@ testcase_use_as_default() {
 
   assert_match 'bash-Y.0' "$PATH"
   assert_match 'bash-Y.0' "$(which bash)"
-  assert_match 'bash-Y.0' $(readlink $BASHVM_HOME/bin/bash)
 }
 
 testcase_use_invalid_version() {
@@ -26,4 +21,9 @@ testcase_use_invalid_version() {
 testcase_use_with_install() {
   bashvm use 3.2 --install >/dev/null 2>&1
   assert_match 'bash-3.2' "$(which bash)"
+}
+
+testcase_use_system_version() {
+  bashvm use system --default >/dev/null
+  assert_match "/bin/bash" "$(which bash)"
 }
