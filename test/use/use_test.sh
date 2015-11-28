@@ -22,3 +22,8 @@ testcase_use_with_install() {
   bashvm use 3.2 --install >/dev/null 2>&1
   assert_match 'bash-3.2' "$(which bash)"
 }
+
+testcase_use_system_version() {
+  bashvm use system --default >/dev/null
+  assert_match "/bin/bash" "$(which bash)"
+}
