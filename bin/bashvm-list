@@ -28,7 +28,6 @@ local_list() {
   for fullpath in $(ls -d $BASHVM_HOME/usr/bash-*); do
     local version=$(basename $fullpath)
     version=${version#bash-}
-    echo "$version == $current && $version == $bashvm_default_version"
     if [[ "$version" == "$current" && "$version" == "$bashvm_default_version" ]]; then
       echo "=* bash-$version"
     elif [[ "$version" == "$bashvm_default_version" ]]; then
