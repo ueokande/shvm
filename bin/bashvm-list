@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 remote_list() {
-  local bash_list=$(2>/dev/null curl -l  'ftp://ftp.gnu.org/gnu/bash/' | grep '^bash-.*.tar.gz$' | grep -v -- '-doc-')
+  local bash_list=$(2>/dev/null curl -l 'ftp://ftp.gnu.org/gnu/bash/' | grep '^bash-.*.tar.gz$' | grep -v -- '-doc-')
   local version
   for version in $bash_list; do
     echo ${version%.tar.gz}
@@ -28,7 +28,6 @@ local_list() {
   for fullpath in $(ls -d $BASHVM_HOME/usr/bash-*); do
     local version=$(basename $fullpath)
     version=${version#bash-}
-    echo "$version == $current && $version == $bashvm_default_version"
     if [[ "$version" == "$current" && "$version" == "$bashvm_default_version" ]]; then
       echo "=* bash-$version"
     elif [[ "$version" == "$bashvm_default_version" ]]; then
@@ -46,14 +45,14 @@ local_list() {
 }
 
 help() {
-  echo -n "\
+  cat <<EOF
 Usage: bashvm list [command]
 
 Avairable commands for bashvm list
 
   local     Show installed bash list in local (default)
   remote    Show bash list which able to install
-"
+EOF
 }
 
 if [[ $# -eq 0 ]]; then

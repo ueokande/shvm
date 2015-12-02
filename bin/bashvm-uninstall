@@ -11,9 +11,7 @@ uninstall() {
 }
 
 help() {
-  echo -n "\
-Usage: bashvm uninstall <version>
-"
+  echo "Usage: bashvm uninstall <version>"
 }
 
 bash_version=

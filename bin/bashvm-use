@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
 help() {
-  echo -n "\
+  cat <<EOF
 Usage: bashvm use [--default] <version>
 
   --default   set the default bash version to <version>
   --install   install the version if it is not in the local
-"
+EOF
 }
 
 while test $# != 0; do

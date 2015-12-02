@@ -14,9 +14,7 @@ fetch() {
 }
 
 help() {
-  echo -n "\
-Usage: bashvm fetch <version>
-"
+  echo "Usage: bashvm fetch <version>"
 }
 
 force=
