@@ -4,7 +4,7 @@ exec_help() {
   if (hash bashvm-${target} 2>/dev/null) then
     bashvm-${target} --help
   else
-    echo "\
+    cat <<EOF
 Usage: bashvm [--help] <command> [<args>]
 
 The sub-commands for bashvm:
@@ -13,7 +13,8 @@ The sub-commands for bashvm:
     use         Setup current shell to use a specific bash version.
     install     Install bash version
     uninstall   Uninstall bash version
-    help        Display helps"
+    help        Display helps
+EOF
 
     [[ -z "$target" ]] || exit 1
   fi

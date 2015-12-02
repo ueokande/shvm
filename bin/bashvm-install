@@ -24,9 +24,7 @@ Make sure that 'make -C $builddir install' succeeds before install"
 }
 
 help() {
-  echo -n "\
-Usage: bashvm install <version>
-"
+  echo "Usage: bashvm install <version>"
 }
 
 force=
