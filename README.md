@@ -1,6 +1,12 @@
 BashVM - Bash Version Manager
 =============================
 
+Requirements
+------------
+
+- Bash 3.2+
+- Linux
+
 Install
 -------
 
