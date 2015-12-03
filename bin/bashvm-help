@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -e
 
 exec_help() {
   if (hash bashvm-${target} 2>/dev/null) then

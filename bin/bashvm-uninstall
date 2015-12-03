@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -e
 
 uninstall() {
   if ! [[ -d "$BASHVM_HOME/usr/bash-${bash_version}" ]]; then

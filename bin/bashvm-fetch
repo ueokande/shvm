@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -e
 
 fetch() {
   if [[ -z $force && -d "$BASHVM_HOME/src/bash-${bash_version}" ]]; then

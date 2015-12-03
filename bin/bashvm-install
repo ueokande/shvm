@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -e
 
 install() {
   bashvm-fetch $bash_version || exit 1
