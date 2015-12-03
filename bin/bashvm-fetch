@@ -9,7 +9,7 @@ fetch() {
 
   tmpfile=$(mktemp)
   echo "Fetching bash-${bash_version}..."
-  curl -o"$tmpfile"  --progress-bar "ftp://ftp.gnu.org/gnu/bash/bash-${bash_version}.tar.gz" || exit 1
+  curl -o"$tmpfile"  --progress-bar "ftp://ftp.gnu.org/gnu/bash/bash-${bash_version}.tar.gz"
   tar zxf "$tmpfile" -C $BASHVM_HOME/src
   rm "$tmpfile"
 }
