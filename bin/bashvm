@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -e
 
 cat <<EOS
 bashvm is invoked as command.  The installation is failed.

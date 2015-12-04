@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -e
 
 remote_list() {
   local bash_list=$(2>/dev/null curl -l 'ftp://ftp.gnu.org/gnu/bash/' | grep '^bash-.*.tar.gz$' | grep -v -- '-doc-')
