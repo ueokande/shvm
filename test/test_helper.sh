@@ -1,5 +1,5 @@
 
-setup() {
+before_each() {
   tmpdir=$(mktemp -d)
   export BASHVM_HOME=$tmpdir
   export bashvm_default_version="X.1"
@@ -15,6 +15,6 @@ setup() {
   source $(dirname $BASH_SOURCE)/../bin/bashvm-init
 }
 
-teardown() {
+after_each() {
   rm -rf $tmpdir
 }
