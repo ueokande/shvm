@@ -2,6 +2,11 @@
 set -e
 
 install() {
+  if [[ -d "$BASHVM_HOME/usr/bash-${bash_version}" ]]; then
+    echo "bash-${bash_version} installed"
+    return 0
+  fi
+
   bashvm-fetch $bash_version || exit 1
 
   builddir=$(mktemp -d)
