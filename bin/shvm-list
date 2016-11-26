@@ -30,9 +30,9 @@ local_list() {
   for fullpath in $SHVM_HOME/usr/*; do
     local version=$(basename $fullpath)
     version=${version#bash-}
-    if [[ "$version" == "$current" && "$version" == "$shvm_default_version" ]]; then
+    if [[ "$version" == "$current" && "$version" == "$SHVM_DEFAULT_VERSION" ]]; then
       echo "=* bash-$version"
-    elif [[ "$version" == "$shvm_default_version" ]]; then
+    elif [[ "$version" == "$SHVM_DEFAULT_VERSION" ]]; then
       echo " * bash-$version"
     elif [[ "$version" == "$current" ]]; then
       echo "=> bash-$version"

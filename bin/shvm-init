@@ -18,7 +18,7 @@ shvm_die() {
 export -f shvm_die
 
 shvm_save_config() {
-  declare -p shvm_default_version >$SHVM_HOME/config
+  declare -p SHVM_DEFAULT_VERSION >$SHVM_HOME/config
 }
 export -f shvm_save_config
 
@@ -63,7 +63,7 @@ shvm_use() {
   fi
 
   if [[ -n "$default" ]]; then
-    shvm_default_version=$bash_version
+    SHVM_DEFAULT_VERSION=$bash_version
     shvm_save_config
   fi
 
@@ -127,9 +127,9 @@ export SHVM_HOME=${SHVM_HOME:-$HOME/.shvm}
 PATH="$(readlink -f $(dirname $BASH_SOURCE)):$PATH"
 
 test -f $SHVM_HOME/config && source $SHVM_HOME/config
-export shvm_default_version=${shvm_default_version:-system}
+export SHVM_DEFAULT_VERSION=${SHVM_DEFAULT_VERSION:-system}
 shvm_save_config
 
 shvm_original_path=$PATH
 
-shvm use $shvm_default_version >/dev/null
+shvm use $SHVM_DEFAULT_VERSION >/dev/null
