@@ -1,40 +1,41 @@
-#!/usr/bin/env bash
+#!/bin/sh
 set -e
 
 remote_list() {
-  local bash_list=$(2>/dev/null curl -l 'ftp://ftp.gnu.org/gnu/bash/' | grep '^bash-.*.tar.gz$' | grep -v -- '-doc-')
-  local version
+  bash_list=$(2>/dev/null curl -l 'ftp://ftp.gnu.org/gnu/bash/' | grep '^bash-.*.tar.gz$' | grep -v -- '-doc-')
   for version in $bash_list; do
-    echo ${version%.tar.gz}
+    echo "${version%.tar.gz}"
   done
 }
 
 current_version() {
-  local current_bash_path=$(which bash)
-  if [[ "$current_bash_path" =~ $SHVM_HOME/usr/bash- ]]; then
+  current_bash_path=$(which bash)
+  case "$current_bash_path" in
+  $SHVM_HOME/usr/bash-*)
     # current version is in shvm
-    local current=${current_bash_path#$SHVM_HOME/usr/bash-}
-    current=${current%/bin/bash}
-    echo $current
-  else
+    current="${current_bash_path#$SHVM_HOME/usr/bash-}"
+    current="${current%/bin/bash}"
+    echo "$current"
+    ;;
+  *)
     # current version is system
     echo 'system'
-  fi
+    ;;
+  esac
 }
 
 local_list() {
-  local current=$(current_version)
-  local fullpath;
-  ls -Ad $SHVM_HOME/usr/* >/dev/null 2>&1 || exit 0
+  current=$(current_version)
+  ls -Ad "$SHVM_HOME"/usr/* >/dev/null 2>&1 || exit 0
   echo
   for fullpath in $SHVM_HOME/usr/*; do
-    local version=$(basename $fullpath)
-    version=${version#bash-}
-    if [[ "$version" == "$current" && "$version" == "$SHVM_DEFAULT_VERSION" ]]; then
+    version=$(basename "$fullpath")
+    version="${version#bash-}"
+    if [ "$version" = "$current" ] && [ "$version" = "$SHVM_DEFAULT_VERSION" ]; then
       echo "=* bash-$version"
-    elif [[ "$version" == "$SHVM_DEFAULT_VERSION" ]]; then
+    elif [ "$version" = "$SHVM_DEFAULT_VERSION" ]; then
       echo " * bash-$version"
-    elif [[ "$version" == "$current" ]]; then
+    elif [ "$version" = "$current" ]; then
       echo "=> bash-$version"
     else
       echo "   bash-$version"
@@ -57,7 +58,7 @@ Avairable commands for shvm list
 EOF
 }
 
-if [[ $# -eq 0 ]]; then
+if [ $# -eq 0 ]; then
   local_list
   exit 0
 fi
