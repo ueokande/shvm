@@ -1,8 +1,8 @@
-#!/usr/bin/env bash
+#!/bin/sh
 set -e
 
 fetch() {
-  if [[ -z $force && -d "$SHVM_HOME/src/bash-${bash_version}" ]]; then
+  if [ -z "$force" ] && [ -d "$SHVM_HOME/src/bash-${bash_version}" ]; then
     echo "The source of bash-${bash_version} is already exists"
     return 0
   fi
@@ -10,7 +10,7 @@ fetch() {
   tmpfile=$(mktemp)
   echo "Fetching bash-${bash_version}..."
   curl -o"$tmpfile"  --progress-bar "ftp://ftp.gnu.org/gnu/bash/bash-${bash_version}.tar.gz"
-  tar zxf "$tmpfile" -C $SHVM_HOME/src
+  tar zxf "$tmpfile" -C "$SHVM_HOME/src"
   rm "$tmpfile"
 }
 
