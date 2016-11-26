@@ -2,7 +2,7 @@
 set -e
 
 fetch() {
-  if [[ -z $force && -d "$BASHVM_HOME/src/bash-${bash_version}" ]]; then
+  if [[ -z $force && -d "$SHVM_HOME/src/bash-${bash_version}" ]]; then
     echo "The source of bash-${bash_version} is already exists"
     return 0
   fi
@@ -10,12 +10,12 @@ fetch() {
   tmpfile=$(mktemp)
   echo "Fetching bash-${bash_version}..."
   curl -o"$tmpfile"  --progress-bar "ftp://ftp.gnu.org/gnu/bash/bash-${bash_version}.tar.gz"
-  tar zxf "$tmpfile" -C $BASHVM_HOME/src
+  tar zxf "$tmpfile" -C $SHVM_HOME/src
   rm "$tmpfile"
 }
 
 help() {
-  echo "Usage: bashvm fetch <version>"
+  echo "Usage: shvm fetch <version>"
 }
 
 force=
@@ -31,7 +31,7 @@ while test $# != 0; do
     force=t
     ;;
   -*|--*)
-    bashvm_die "Unrecognized option: $1"
+    shvm_die "Unrecognized option: $1"
     ;;
   *)
     bash_version="${1#bash-}"

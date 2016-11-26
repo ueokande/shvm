@@ -2,26 +2,26 @@
 set -e
 
 install() {
-  if [[ -d "$BASHVM_HOME/usr/bash-${bash_version}" ]]; then
+  if [[ -d "$SHVM_HOME/usr/bash-${bash_version}" ]]; then
     echo "bash-${bash_version} installed"
     return 0
   fi
 
-  bashvm-fetch $bash_version || exit 1
+  shvm-fetch $bash_version || exit 1
 
   builddir=$(mktemp -d)
   ( cd $builddir
 
     echo "Checking build system..."
-    "$BASHVM_HOME/src/bash-${bash_version}/configure" \
-      --prefix=$BASHVM_HOME/usr/bash-${bash_version} 2>&1 >/dev/null \
-      || bashvm_die "Failed to configure bash-${bash_version}.
-  Make sure that '$BASHVM_HOME/src/bash-${bash_version} --prefix=$BASHVM_HOME/usr/bash-${bash_version}' \
+    "$SHVM_HOME/src/bash-${bash_version}/configure" \
+      --prefix=$SHVM_HOME/usr/bash-${bash_version} 2>&1 >/dev/null \
+      || shvm_die "Failed to configure bash-${bash_version}.
+  Make sure that '$SHVM_HOME/src/bash-${bash_version} --prefix=$SHVM_HOME/usr/bash-${bash_version}' \
   succeeds before install"
 
     echo "Building bash-${bash_version}..."
     make -C $builddir install >/dev/null 2>&1 \
-      || bashvm_die "Failed to build bash-${bash_version}.
+      || shvm_die "Failed to build bash-${bash_version}.
 Make sure that 'make -C $builddir install' succeeds before install"
   )
 
@@ -30,7 +30,7 @@ Make sure that 'make -C $builddir install' succeeds before install"
 }
 
 help() {
-  echo "Usage: bashvm install <version>"
+  echo "Usage: shvm install <version>"
 }
 
 force=
@@ -43,7 +43,7 @@ while test $# != 0; do
     exit 0
     ;;
   -*|--*)
-    bashvm_die "Unrecognized option: $1"
+    shvm_die "Unrecognized option: $1"
     ;;
   *)
     bash_version="${1#bash-}"

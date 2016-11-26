@@ -11,9 +11,9 @@ remote_list() {
 
 current_version() {
   local current_bash_path=$(which bash)
-  if [[ "$current_bash_path" =~ $BASHVM_HOME/usr/bash- ]]; then
-    # current version is in bashvm
-    local current=${current_bash_path#$BASHVM_HOME/usr/bash-}
+  if [[ "$current_bash_path" =~ $SHVM_HOME/usr/bash- ]]; then
+    # current version is in shvm
+    local current=${current_bash_path#$SHVM_HOME/usr/bash-}
     current=${current%/bin/bash}
     echo $current
   else
@@ -25,14 +25,14 @@ current_version() {
 local_list() {
   local current=$(current_version)
   local fullpath;
-  ls -Ad $BASHVM_HOME/usr/* >/dev/null 2>&1 || exit 0
+  ls -Ad $SHVM_HOME/usr/* >/dev/null 2>&1 || exit 0
   echo
-  for fullpath in $BASHVM_HOME/usr/*; do
+  for fullpath in $SHVM_HOME/usr/*; do
     local version=$(basename $fullpath)
     version=${version#bash-}
-    if [[ "$version" == "$current" && "$version" == "$bashvm_default_version" ]]; then
+    if [[ "$version" == "$current" && "$version" == "$shvm_default_version" ]]; then
       echo "=* bash-$version"
-    elif [[ "$version" == "$bashvm_default_version" ]]; then
+    elif [[ "$version" == "$shvm_default_version" ]]; then
       echo " * bash-$version"
     elif [[ "$version" == "$current" ]]; then
       echo "=> bash-$version"
@@ -48,9 +48,9 @@ local_list() {
 
 help() {
   cat <<EOF
-Usage: bashvm list [command]
+Usage: shvm list [command]
 
-Avairable commands for bashvm list
+Avairable commands for shvm list
 
   local     Show installed bash list in local (default)
   remote    Show bash list which able to install
@@ -74,11 +74,11 @@ local)
   help
   ;;
 -*|--*)
-  bashvm_die "Unrecognized option: $1"
+  shvm_die "Unrecognized option: $1"
   exit 1
   ;;
 *)
-  bashvm_die "Unrecognized command: $1"
+  shvm_die "Unrecognized command: $1"
   exit 1
   ;;
 esac
