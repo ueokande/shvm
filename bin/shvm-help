@@ -1,9 +1,9 @@
-#!/usr/bin/env bash
+#!/bin/sh
 set -e
 
 exec_help() {
-  if (hash shvm-${target} 2>/dev/null) then
-    shvm-${target} --help
+  if (hash "shvm-${target}" 2>/dev/null) then
+    "shvm-${target}" --help
   else
     cat <<EOF
 Usage: shvm [--help] <command> [<args>]
@@ -17,7 +17,7 @@ The sub-commands for shvm:
     help        Display helps
 EOF
 
-    [[ -z "$target" ]] || exit 1
+    [ -z "$target" ] || exit 1
   fi
 }
 
