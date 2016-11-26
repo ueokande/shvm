@@ -3,7 +3,7 @@ set -e
 
 help() {
   cat <<EOF
-Usage: bashvm use [--default] <version>
+Usage: shvm use [--default] <version>
 
   --default   set the default bash version to <version>
   --install   install the version if it is not in the local

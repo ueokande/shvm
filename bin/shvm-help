@@ -2,13 +2,13 @@
 set -e
 
 exec_help() {
-  if (hash bashvm-${target} 2>/dev/null) then
-    bashvm-${target} --help
+  if (hash shvm-${target} 2>/dev/null) then
+    shvm-${target} --help
   else
     cat <<EOF
-Usage: bashvm [--help] <command> [<args>]
+Usage: shvm [--help] <command> [<args>]
 
-The sub-commands for bashvm:
+The sub-commands for shvm:
 
     list        Show currently available bash'es.
     use         Setup current shell to use a specific bash version.
@@ -22,7 +22,7 @@ EOF
 }
 
 help() {
-  echo "Usage: bashvm help <command>"
+  echo "Usage: shvm help <command>"
 }
 
 target=
@@ -34,7 +34,7 @@ while test $# != 0; do
     exit 0
     ;;
   -*|--*)
-    bashvm_die "Unrecognized option: $1"
+    shvm_die "Unrecognized option: $1"
     ;;
   *)
     target="$1"

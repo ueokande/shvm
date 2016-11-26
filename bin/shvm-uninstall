@@ -2,17 +2,17 @@
 set -e
 
 uninstall() {
-  if ! [[ -d "$BASHVM_HOME/usr/bash-${bash_version}" ]]; then
+  if ! [[ -d "$SHVM_HOME/usr/bash-${bash_version}" ]]; then
     echo "bash-${bash_version} : already gone"
     return 1
   fi
 
   echo "bash-${bash_version} : removing.."
-  rm -rf $BASHVM_HOME/usr/bash-${bash_version}
+  rm -rf $SHVM_HOME/usr/bash-${bash_version}
 }
 
 help() {
-  echo "Usage: bashvm uninstall <version>"
+  echo "Usage: shvm uninstall <version>"
 }
 
 bash_version=
@@ -24,7 +24,7 @@ while test $# != 0; do
     exit 0
     ;;
   -*|--*)
-    bashvm_die "Unrecognized option: $1"
+    shvm_die "Unrecognized option: $1"
     ;;
   *)
     bash_version="${1#bash-}"
