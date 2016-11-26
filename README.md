@@ -1,7 +1,7 @@
-BashVM - Bash Version Manager
-=============================
+shvm - A Version Manager for Shells
+===================================
 
-BashVM is a command-line tool to easily install and manage multiple bash
+Shvm is a command-line tool to easily install and manage multiple bash
 versions in your local environment.
 
 Requirements
