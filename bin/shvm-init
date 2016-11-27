@@ -1,6 +1,6 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
-if [[ $_ == $0 ]]; then
+if [ "$_" = "$0" ]; then
   cat << EOS
 shvm-init must be sourced from shell, instead of executable command.
 Add the following line to $HOME/.bash_profile, and restart your shell.
@@ -18,14 +18,16 @@ shvm_die() {
 export -f shvm_die
 
 shvm_save_config() {
-  declare -p SHVM_DEFAULT_VERSION >$SHVM_HOME/config
+  echo "export SHVM_DEFAULT_VERSION=${SHVM_DEFAULT_VERSION}" \
+    >"$SHVM_HOME/config"
+
 }
 export -f shvm_save_config
 
 shvm_use() {
-  local install=
-  local default=
-  local bash_version=
+  install=
+  default=
+  bash_version=
 
   while test $# != 0; do
     case "$1" in
@@ -55,20 +57,20 @@ shvm_use() {
     return 1
   fi
 
-  [[ -n "$install" ]] && shvm-install "$bash_version"
+  [ -n "$install" ] && shvm-install "$bash_version"
 
-  if ! [[ -d "$SHVM_HOME/usr/bash-${bash_version}" || ${bash_version} = 'system' ]]; then
+  if ! [ -d "$SHVM_HOME/usr/bash-${bash_version}" ] || [ "$bash_version" = 'system' ]; then
     echo "Unknown bash version: bash-${bash_version}." >&2
     return 1
   fi
 
-  if [[ -n "$default" ]]; then
+  if [ -n "$default" ]; then
     SHVM_DEFAULT_VERSION=$bash_version
     shvm_save_config
   fi
 
-  if [[ $bash_version = 'system' ]]; then
-    export PATH=$shvm_original_path
+  if [ "$bash_version" = 'system' ]; then
+    export PATH="$shvm_original_path"
   else
     export PATH="$SHVM_HOME/usr/bash-${bash_version}/bin:$shvm_original_path"
   fi
@@ -124,12 +126,13 @@ shvm() {
 export -f shvm
 
 export SHVM_HOME=${SHVM_HOME:-$HOME/.shvm}
-PATH="$(readlink -f $(dirname $BASH_SOURCE)):$PATH"
+PATH="$SHVM_HOME/bin:$PATH"
 
-test -f $SHVM_HOME/config && source $SHVM_HOME/config
+# shellcheck disable=SC1090
+test -f "$SHVM_HOME/config" && . "$SHVM_HOME/config"
 export SHVM_DEFAULT_VERSION=${SHVM_DEFAULT_VERSION:-system}
 shvm_save_config
 
-shvm_original_path=$PATH
+shvm_original_path="$PATH"
 
-shvm use $SHVM_DEFAULT_VERSION >/dev/null
+shvm use "$SHVM_DEFAULT_VERSION" >/dev/null

@@ -6,13 +6,14 @@ before_each() {
 
   mkdir -p $SHVM_HOME/usr/bash-{X.0,X.1,Y.0}
   mkdir -p $SHVM_HOME/src/bash-X.0
+  ln -s $(readlink -f $(dirname $BASH_SOURCE)/../bin) $SHVM_HOME/bin
   local current_bash_path=$(which bash)
   for dir in $SHVM_HOME/usr/bash-*; do
     mkdir ${dir}/bin
     ln -s $current_bash_path ${dir}/bin/bash
   done
 
-  source $(dirname $BASH_SOURCE)/../bin/shvm-init
+  source ${SHVM_HOME}/bin/shvm-init
 }
 
 after_each() {
