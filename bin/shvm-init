@@ -11,12 +11,6 @@ EOS
   exit 1
 fi
 
-shvm_die() {
-  echo "$@" >&2
-  exit 1
-}
-export -f shvm_die
-
 shvm_save_config() {
   echo "export SHVM_DEFAULT_VERSION=${SHVM_DEFAULT_VERSION}" \
     >"$SHVM_HOME/config"

@@ -31,7 +31,8 @@ while test $# != 0; do
     force=t
     ;;
   -*|--*)
-    shvm_die "Unrecognized option: $1"
+    echo >&2 "Unrecognized option: $1"
+    exit 1
     ;;
   *)
     bash_version="${1#bash-}"
