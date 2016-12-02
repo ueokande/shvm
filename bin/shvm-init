@@ -85,7 +85,7 @@ shvm() {
     ;;
   fetch)
     shift
-    shvm-fetch "$@"
+    $SHVM_HOME/usr/shvm-core/shvm-fetch "$@"
     ;;
   install)
     shift

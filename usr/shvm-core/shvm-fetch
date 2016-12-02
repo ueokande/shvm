@@ -1,0 +1,45 @@
+#!/bin/sh
+set -e
+
+help() {
+  echo "Usage: shvm fetch <target>"
+}
+
+force=
+target=
+
+while test $# != 0; do
+  case "$1" in
+  --help)
+    help
+    exit 0
+    ;;
+  -f|--force)
+    force=t
+    ;;
+  -*|--*)
+    echo >&2 "Unrecognized option: $1"
+    exit 1
+    ;;
+  *)
+    target="$1"
+    ;;
+  esac
+  shift
+done
+
+if [ -z "$target" ]; then
+  help
+  exit 1
+fi
+
+if [ -z "$force" ] && [ -d "$SHVM_HOME/src/$target" ]; then
+  echo "The source of $target is already exists"
+  return 0
+fi
+
+tmpfile=$(mktemp)
+echo "Fetching ${target}..."
+curl -o"$tmpfile"  --progress-bar "ftp://ftp.gnu.org/gnu/bash/${target}.tar.gz"
+tar zxf "$tmpfile" -C "$SHVM_HOME/src"
+rm "$tmpfile"
