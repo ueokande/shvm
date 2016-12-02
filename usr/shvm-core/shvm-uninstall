@@ -1,0 +1,38 @@
+#!/bin/sh
+set -e
+
+help() {
+  echo "Usage: shvm uninstall <target>"
+}
+
+target=
+
+while test $# != 0; do
+  case "$1" in
+  --help)
+    help
+    exit 0
+    ;;
+  -*|--*)
+    echo >&2 "Unrecognized option: $1"
+    exit 1
+    ;;
+  *)
+    target="$1"
+    ;;
+  esac
+  shift
+done
+
+if [ -z "$target" ]; then
+  help
+  exit 1
+fi
+
+if ! [ -d "$SHVM_HOME/usr/$target" ]; then
+  echo "$target : already gone"
+  return 1
+fi
+
+echo "$target : removing.."
+rm -rf "$SHVM_HOME/usr/$target"

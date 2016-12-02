@@ -93,7 +93,7 @@ shvm() {
     ;;
   uninstall)
     shift
-    shvm-uninstall "$@"
+    $SHVM_HOME/usr/shvm-core/shvm-uninstall "$@"
     ;;
   help)
     shift
