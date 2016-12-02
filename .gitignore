@@ -1,4 +1,4 @@
 /src/*
 !/src/.keep
 /usr/*
-!/usr/.keep
+!/usr/shvm-core

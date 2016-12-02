@@ -1,0 +1,45 @@
+#!/bin/sh
+set -e
+
+help() {
+  echo "Usage: shvm help <command>"
+}
+
+target=
+
+while test $# != 0; do
+  case "$1" in
+  --help)
+    help
+    exit 0
+    ;;
+  -*|--*)
+    echo >&2 "Unrecognized option: $1"
+    exit 1
+    ;;
+  *)
+    target="$1"
+    ;;
+  esac
+  shift
+done
+
+if [ -x "$SHVM_HOME/usr/shvm-core/shvm-$target" ]; then
+  "$SHVM_HOME/usr/shvm-core/shvm-$target" --help
+elif (hash "shvm-${target}" 2>/dev/null) then
+  "shvm-${target}" --help
+else
+  cat <<EOF
+Usage: shvm [--help] <command> [<args>]
+
+The sub-commands for shvm:
+
+  list        Show currently available bash'es.
+  use         Setup current shell to use a specific bash version.
+  install     Install bash version
+  uninstall   Uninstall bash version
+  help        Display helps
+EOF
+
+  [ -z "$target" ] || exit 1
+fi

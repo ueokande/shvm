@@ -21,12 +21,12 @@ export -f shvm_save_config
 shvm_use() {
   install=
   default=
-  bash_version=
+  target=
 
   while test $# != 0; do
     case "$1" in
     --help)
-      shvm-use --help
+      "$SHVM_HOME/usr/shvm-core/shvm-use" --help
       return 0
       ;;
     --install)
@@ -40,36 +40,36 @@ shvm_use() {
       return 1
       ;;
     *)
-      bash_version="${1#bash-}"
+      target="$1"
       ;;
     esac
     shift
   done
 
-  if [ -z "$bash_version" ]; then
-    shvm-use --help
+  if [ -z "$target" ]; then
+    "$SHVM_HOME/usr/shvm-core/shvm-use" --help
     return 1
   fi
 
-  [ -n "$install" ] && shvm-install "$bash_version"
+  [ -n "$install" ] && "$SHVM_HOME/usr/shvm-core/shvm-install" "$target"
 
-  if ! [ -d "$SHVM_HOME/usr/bash-${bash_version}" ] || [ "$bash_version" = 'system' ]; then
-    echo "Unknown bash version: bash-${bash_version}." >&2
+  if ! [ -d "$SHVM_HOME/usr/$target" ] || [ "$target" = 'system' ]; then
+    echo "Unknown bash version: $target." >&2
     return 1
   fi
 
   if [ -n "$default" ]; then
-    SHVM_DEFAULT_VERSION=$bash_version
+    SHVM_DEFAULT_VERSION="$target"
     shvm_save_config
   fi
 
-  if [ "$bash_version" = 'system' ]; then
+  if [ "$target" = 'system' ]; then
     export PATH="$shvm_original_path"
   else
-    export PATH="$SHVM_HOME/usr/bash-${bash_version}/bin:$shvm_original_path"
+    export PATH="$SHVM_HOME/usr/$target/bin:$shvm_original_path"
   fi
 
-  echo "Switched to bash-${bash_version}"
+  echo "Switched to $target"
 }
 export -f shvm_use
 
@@ -77,7 +77,7 @@ shvm() {
   case "$1" in
   list)
     shift
-    shvm-list "$@"
+    "$SHVM_HOME/usr/shvm-core/shvm-list" "$@"
     ;;
   use)
     shift
@@ -85,23 +85,23 @@ shvm() {
     ;;
   fetch)
     shift
-    shvm-fetch "$@"
+    "$SHVM_HOME/usr/shvm-core/shvm-fetch" "$@"
     ;;
   install)
     shift
-    shvm-install "$@"
+    "$SHVM_HOME/usr/shvm-core/shvm-install" "$@"
     ;;
   uninstall)
     shift
-    shvm-uninstall "$@"
+    "$SHVM_HOME/usr/shvm-core/shvm-uninstall" "$@"
     ;;
   help)
     shift
-    shvm-help "$@"
+    "$SHVM_HOME/usr/shvm-core/shvm-help" "$@"
     ;;
   --help)
     shift
-    shvm-help
+    "$SHVM_HOME/usr/shvm-core/shvm-help"
     ;;
   --version)
     shift
