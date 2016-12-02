@@ -39,7 +39,7 @@ if [ -d "$SHVM_HOME/usr/$target" ]; then
   return 0
 fi
 
-$SHVM_HOME/usr/shvm-core/shvm-fetch "$target" || exit 1
+"$SHVM_HOME/usr/shvm-core/shvm-fetch" "$target" || exit 1
 
 builddir=$(mktemp -d)
 ( cd "$builddir"
