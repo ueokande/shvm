@@ -1,26 +1,6 @@
 #!/bin/sh
 set -e
 
-exec_help() {
-  if (hash "shvm-${target}" 2>/dev/null) then
-    "shvm-${target}" --help
-  else
-    cat <<EOF
-Usage: shvm [--help] <command> [<args>]
-
-The sub-commands for shvm:
-
-    list        Show currently available bash'es.
-    use         Setup current shell to use a specific bash version.
-    install     Install bash version
-    uninstall   Uninstall bash version
-    help        Display helps
-EOF
-
-    [ -z "$target" ] || exit 1
-  fi
-}
-
 help() {
   echo "Usage: shvm help <command>"
 }
@@ -44,4 +24,22 @@ while test $# != 0; do
   shift
 done
 
-exec_help
+if [ -x "$SHVM_HOME/usr/shvm-core/shvm-$target" ]; then
+  "$SHVM_HOME/usr/shvm-core/shvm-$target" --help
+elif (hash "shvm-${target}" 2>/dev/null) then
+  "shvm-${target}" --help
+else
+  cat <<EOF
+Usage: shvm [--help] <command> [<args>]
+
+The sub-commands for shvm:
+
+  list        Show currently available bash'es.
+  use         Setup current shell to use a specific bash version.
+  install     Install bash version
+  uninstall   Uninstall bash version
+  help        Display helps
+EOF
+
+  [ -z "$target" ] || exit 1
+fi

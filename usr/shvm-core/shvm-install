@@ -1,0 +1,62 @@
+#!/bin/sh
+set -e
+
+abort() {
+  echo "$@" >&2
+  exit 1
+}
+
+help() {
+  echo "Usage: shvm install <version>"
+}
+
+bash_version=
+
+while test $# != 0; do
+  case "$1" in
+  --help)
+    help
+    exit 0
+    ;;
+  -*|--*)
+    echo >&2 "Unrecognized option: $1"
+    exit 1
+    ;;
+  *)
+    bash_version="${1#bash-}"
+    ;;
+  esac
+  shift
+done
+
+if [ -z "$bash_version" ]; then
+  help
+  exit 1
+fi
+
+if [ -d "$SHVM_HOME/usr/bash-${bash_version}" ]; then
+  echo "bash-${bash_version} installed"
+  return 0
+fi
+
+shvm-fetch "$bash_version" || exit 1
+
+builddir=$(mktemp -d)
+( cd "$builddir"
+
+  echo "Checking build system..."
+  "$SHVM_HOME/src/bash-${bash_version}/configure" \
+    --prefix="$SHVM_HOME/usr/bash-${bash_version}" 2>/dev/tty >/dev/null \
+    || abort "Failed to configure bash-${bash_version}.
+Make sure that '$SHVM_HOME/src/bash-${bash_version} --prefix=$SHVM_HOME/usr/bash-${bash_version}' \
+succeeds before install"
+
+  echo "Building bash-${bash_version}..."
+  make -C "$builddir" install >/dev/null 2>&1 \
+    || abort "Failed to build bash-${bash_version}.
+Make sure that 'make -C $builddir install' succeeds before install"
+)
+
+rm -rf "$builddir"
+echo "bash-${bash_version} installed"
+
