@@ -13,7 +13,7 @@ current_version() {
   case "$current_bash_path" in
   $SHVM_HOME/usr/bash-*)
     # current version is in shvm
-    current="${current_bash_path#$SHVM_HOME/usr/bash-}"
+    current="${current_bash_path#$SHVM_HOME/usr/}"
     current="${current%/bin/bash}"
     echo "$current"
     ;;
@@ -30,15 +30,14 @@ local_list() {
   echo
   for fullpath in $SHVM_HOME/usr/*; do
     version=$(basename "$fullpath")
-    version="${version#bash-}"
     if [ "$version" = "$current" ] && [ "$version" = "$SHVM_DEFAULT_VERSION" ]; then
-      echo "=* bash-$version"
+      echo "=* $version"
     elif [ "$version" = "$SHVM_DEFAULT_VERSION" ]; then
-      echo " * bash-$version"
+      echo " * $version"
     elif [ "$version" = "$current" ]; then
-      echo "=> bash-$version"
+      echo "=> $version"
     else
-      echo "   bash-$version"
+      echo "   $version"
     fi
   done
   echo

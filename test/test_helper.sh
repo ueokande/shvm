@@ -2,7 +2,7 @@
 before_each() {
   tmpdir=$(mktemp -d)
   export SHVM_HOME=$tmpdir
-  export SHVM_DEFAULT_VERSION="X.1"
+  export SHVM_DEFAULT_VERSION="bash-X.1"
 
   mkdir -p $SHVM_HOME/usr/bash-{X.0,X.1,Y.0}
   mkdir -p $SHVM_HOME/src/bash-X.0
