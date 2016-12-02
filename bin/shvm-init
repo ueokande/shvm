@@ -53,7 +53,7 @@ shvm_use() {
 
   [ -n "$install" ] && "$SHVM_HOME/usr/shvm-core/shvm-install" "$target"
 
-  if ! [ -d "$SHVM_HOME/usr/$target" ] || [ "$target" = 'system' ]; then
+  if ! [ -d "$SHVM_HOME/lib/$target" ] || [ "$target" = 'system' ]; then
     echo "Unknown bash version: $target." >&2
     return 1
   fi
@@ -66,7 +66,7 @@ shvm_use() {
   if [ "$target" = 'system' ]; then
     export PATH="$shvm_original_path"
   else
-    export PATH="$SHVM_HOME/usr/$target/bin:$shvm_original_path"
+    export PATH="$SHVM_HOME/lib/$target/bin:$shvm_original_path"
   fi
 
   echo "Switched to $target"

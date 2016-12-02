@@ -13,6 +13,6 @@ testcase_show_default_bashtub() {
 }
 
 testcase_show_curren_and_default_bashtub() {
-  PATH="$SHVM_HOME/usr/bash-X.1/bin:$PATH" subject shvm list local
+  PATH="$SHVM_HOME/lib/bash-X.1/bin:$PATH" subject shvm list local
   assert_match '=\* bash-X.1' "$stdout"
 }

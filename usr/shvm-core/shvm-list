@@ -11,9 +11,9 @@ remote_list() {
 current_version() {
   current_bash_path=$(which bash)
   case "$current_bash_path" in
-  $SHVM_HOME/usr/bash-*)
+  $SHVM_HOME/lib/bash-*)
     # current version is in shvm
-    current="${current_bash_path#$SHVM_HOME/usr/}"
+    current="${current_bash_path#$SHVM_HOME/lib/}"
     current="${current%/bin/bash}"
     echo "$current"
     ;;
@@ -26,9 +26,9 @@ current_version() {
 
 local_list() {
   current=$(current_version)
-  ls -Ad "$SHVM_HOME"/usr/* >/dev/null 2>&1 || exit 0
+  ls -Ad "$SHVM_HOME"/lib/* >/dev/null 2>&1 || exit 0
   echo
-  for fullpath in $SHVM_HOME/usr/*; do
+  for fullpath in $SHVM_HOME/lib/*; do
     version=$(basename "$fullpath")
     if [ "$version" = "$current" ] && [ "$version" = "$SHVM_DEFAULT_VERSION" ]; then
       echo "=* $version"

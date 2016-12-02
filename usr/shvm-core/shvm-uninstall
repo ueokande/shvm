@@ -29,10 +29,10 @@ if [ -z "$target" ]; then
   exit 1
 fi
 
-if ! [ -d "$SHVM_HOME/usr/$target" ]; then
+if ! [ -d "$SHVM_HOME/lib/$target" ]; then
   echo "$target : already gone"
   return 1
 fi
 
 echo "$target : removing.."
-rm -rf "${SHVM_HOME:?}/usr/$target"
+rm -rf "${SHVM_HOME:?}/lib/$target"

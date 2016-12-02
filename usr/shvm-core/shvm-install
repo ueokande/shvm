@@ -34,7 +34,7 @@ if [ -z "$target" ]; then
   exit 1
 fi
 
-if [ -d "$SHVM_HOME/usr/$target" ]; then
+if [ -d "$SHVM_HOME/lib/$target" ]; then
   echo "$target installed"
   return 0
 fi
@@ -46,9 +46,9 @@ builddir=$(mktemp -d)
 
   echo "Checking build system..."
   "$SHVM_HOME/src/$target/configure" \
-    --prefix="$SHVM_HOME/usr/$target" 2>/dev/tty >/dev/null \
+    --prefix="$SHVM_HOME/lib/$target" 2>/dev/tty >/dev/null \
     || abort "Failed to configure $target}.
-Make sure that '$SHVM_HOME/src/$target --prefix=$SHVM_HOME/usr/$target' \
+Make sure that '$SHVM_HOME/src/$target --prefix=$SHVM_HOME/lib/$target' \
 succeeds before install"
 
   echo "Building ${target}..."
