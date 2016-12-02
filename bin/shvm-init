@@ -26,7 +26,7 @@ shvm_use() {
   while test $# != 0; do
     case "$1" in
     --help)
-      shvm-use --help
+      $SHVM_HOME/usr/shvm-core/shvm-use --help
       return 0
       ;;
     --install)
@@ -47,7 +47,7 @@ shvm_use() {
   done
 
   if [ -z "$target" ]; then
-    shvm-use --help
+    $SHVM_HOME/usr/shvm-core/shvm-use --help
     return 1
   fi
 
