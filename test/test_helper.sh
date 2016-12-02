@@ -7,6 +7,7 @@ before_each() {
   mkdir -p $SHVM_HOME/usr/bash-{X.0,X.1,Y.0}
   mkdir -p $SHVM_HOME/src/bash-X.0
   ln -s $(readlink -f $(dirname $BASH_SOURCE)/../bin) $SHVM_HOME/bin
+  cp -r $(readlink -f $(dirname $BASH_SOURCE)/../usr/shvm-core) $SHVM_HOME/usr
   local current_bash_path=$(which bash)
   for dir in $SHVM_HOME/usr/bash-*; do
     mkdir ${dir}/bin
