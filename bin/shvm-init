@@ -77,7 +77,7 @@ shvm() {
   case "$1" in
   list)
     shift
-    shvm-list "$@"
+    $SHVM_HOME/usr/shvm-core/shvm-list "$@"
     ;;
   use)
     shift
