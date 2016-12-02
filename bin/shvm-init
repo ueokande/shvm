@@ -97,11 +97,11 @@ shvm() {
     ;;
   help)
     shift
-    shvm-help "$@"
+    $SHVM_HOME/usr/shvm-core/shvm-help "$@"
     ;;
   --help)
     shift
-    shvm-help
+    $SHVM_HOME/usr/shvm-core/shvm-help
     ;;
   --version)
     shift
