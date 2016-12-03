@@ -24,8 +24,8 @@ while test $# != 0; do
   shift
 done
 
-if [ -x "$SHVM_HOME/usr/shvm-core/shvm-$target" ]; then
-  "$SHVM_HOME/usr/shvm-core/shvm-$target" --help
+if [ -x "$SHVM_HOME/usr/shvm-$target" ]; then
+  "$SHVM_HOME/usr/shvm-$target" --help
 elif (hash "shvm-${target}" 2>/dev/null) then
   "shvm-${target}" --help
 else
