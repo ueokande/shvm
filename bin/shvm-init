@@ -11,16 +11,8 @@ EOS
   exit 1
 fi
 
-shvm_save_config() {
-  echo "export SHVM_DEFAULT_VERSION=${SHVM_DEFAULT_VERSION}" \
-    >"$SHVM_HOME/config"
-
-}
-export -f shvm_save_config
-
 shvm_use() {
   install=
-  default=
   target=
 
   while test $# != 0; do
@@ -31,9 +23,6 @@ shvm_use() {
       ;;
     --install)
       install=t
-      ;;
-    --default)
-      default=t
       ;;
     -*|--*)
       echo "Unrecognized option: $1" >&2
@@ -56,11 +45,6 @@ shvm_use() {
   if ! [ -d "$SHVM_HOME/lib/$target" ] || [ "$target" = 'system' ]; then
     echo "Unknown bash version: $target." >&2
     return 1
-  fi
-
-  if [ -n "$default" ]; then
-    SHVM_DEFAULT_VERSION="$target"
-    shvm_save_config
   fi
 
   if [ "$target" = 'system' ]; then
@@ -122,11 +106,4 @@ export -f shvm
 export SHVM_HOME=${SHVM_HOME:-$HOME/.shvm}
 PATH="$SHVM_HOME/bin:$PATH"
 
-# shellcheck disable=SC1090
-test -f "$SHVM_HOME/config" && . "$SHVM_HOME/config"
-export SHVM_DEFAULT_VERSION=${SHVM_DEFAULT_VERSION:-system}
-shvm_save_config
-
 shvm_original_path="$PATH"
-
-shvm use "$SHVM_DEFAULT_VERSION" >/dev/null

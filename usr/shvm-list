@@ -30,11 +30,7 @@ local_list() {
   echo
   for fullpath in $SHVM_HOME/lib/*; do
     version=$(basename "$fullpath")
-    if [ "$version" = "$current" ] && [ "$version" = "$SHVM_DEFAULT_VERSION" ]; then
-      echo "=* $version"
-    elif [ "$version" = "$SHVM_DEFAULT_VERSION" ]; then
-      echo " * $version"
-    elif [ "$version" = "$current" ]; then
+    if [ "$version" = "$current" ]; then
       echo "=> $version"
     else
       echo "   $version"
@@ -42,8 +38,6 @@ local_list() {
   done
   echo
   echo "# => - current"
-  echo "# =* - current && default"
-  echo "#  * - default"
 }
 
 help() {
