@@ -26,7 +26,7 @@ shvm_use() {
   while test $# != 0; do
     case "$1" in
     --help)
-      "$SHVM_HOME/usr/shvm-core/shvm-use" --help
+      "$SHVM_HOME/usr/shvm-use" --help
       return 0
       ;;
     --install)
@@ -47,13 +47,13 @@ shvm_use() {
   done
 
   if [ -z "$target" ]; then
-    "$SHVM_HOME/usr/shvm-core/shvm-use" --help
+    "$SHVM_HOME/usr/shvm-use" --help
     return 1
   fi
 
-  [ -n "$install" ] && "$SHVM_HOME/usr/shvm-core/shvm-install" "$target"
+  [ -n "$install" ] && "$SHVM_HOME/usr/shvm-install" "$target"
 
-  if ! [ -d "$SHVM_HOME/usr/$target" ] || [ "$target" = 'system' ]; then
+  if ! [ -d "$SHVM_HOME/lib/$target" ] || [ "$target" = 'system' ]; then
     echo "Unknown bash version: $target." >&2
     return 1
   fi
@@ -66,7 +66,7 @@ shvm_use() {
   if [ "$target" = 'system' ]; then
     export PATH="$shvm_original_path"
   else
-    export PATH="$SHVM_HOME/usr/$target/bin:$shvm_original_path"
+    export PATH="$SHVM_HOME/lib/$target/bin:$shvm_original_path"
   fi
 
   echo "Switched to $target"
@@ -77,7 +77,7 @@ shvm() {
   case "$1" in
   list)
     shift
-    "$SHVM_HOME/usr/shvm-core/shvm-list" "$@"
+    "$SHVM_HOME/usr/shvm-list" "$@"
     ;;
   use)
     shift
@@ -85,23 +85,23 @@ shvm() {
     ;;
   fetch)
     shift
-    "$SHVM_HOME/usr/shvm-core/shvm-fetch" "$@"
+    "$SHVM_HOME/usr/shvm-fetch" "$@"
     ;;
   install)
     shift
-    "$SHVM_HOME/usr/shvm-core/shvm-install" "$@"
+    "$SHVM_HOME/usr/shvm-install" "$@"
     ;;
   uninstall)
     shift
-    "$SHVM_HOME/usr/shvm-core/shvm-uninstall" "$@"
+    "$SHVM_HOME/usr/shvm-uninstall" "$@"
     ;;
   help)
     shift
-    "$SHVM_HOME/usr/shvm-core/shvm-help" "$@"
+    "$SHVM_HOME/usr/shvm-help" "$@"
     ;;
   --help)
     shift
-    "$SHVM_HOME/usr/shvm-core/shvm-help"
+    "$SHVM_HOME/usr/shvm-help"
     ;;
   --version)
     shift
