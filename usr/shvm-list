@@ -40,6 +40,15 @@ local_list() {
   echo "# => - current"
 }
 
+support_list() {
+  for dir in $SHVM_HOME/usr/*-support; do
+    [ -e "$dir" ] || break
+
+    dir=$(basename "$dir")
+    echo "${dir%-support}"
+  done
+}
+
 help() {
   cat <<EOF
 Usage: shvm list [command]
@@ -48,6 +57,7 @@ Avairable commands for shvm list
 
   local     Show installed bash list in local (default)
   remote    Show bash list which able to install
+  support   Show supported shell types
 EOF
 }
 
@@ -62,6 +72,9 @@ remote)
   ;;
 local)
   local_list
+  ;;
+support)
+  support_list
   ;;
 --help)
   shift
