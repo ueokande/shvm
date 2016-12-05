@@ -2,10 +2,12 @@
 set -e
 
 remote_list() {
-  bash_list=$(2>/dev/null curl -l 'ftp://ftp.gnu.org/gnu/bash/' | grep '^bash-.*.tar.gz$' | grep -v -- '-doc-')
-  for version in $bash_list; do
-    echo "${version%.tar.gz}"
-  done
+  if [ ! -d "$SHVM_HOME/usr/$1-support" ] || [ ! -x "$SHVM_HOME/usr/$1-support/list" ]; then
+    echo "$1 not supported"
+    exit 1
+  fi
+
+  "$SHVM_HOME/usr/$1-support/list"
 }
 
 current_version() {
@@ -68,7 +70,8 @@ fi
 
 case "$1" in
 remote)
-  remote_list
+  shift
+  remote_list "$1"
   ;;
 local)
   local_list
