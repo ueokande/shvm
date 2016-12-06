@@ -28,7 +28,11 @@ while test $# != 0; do
   shift
 done
 
-if [ -z "$target" ]; then
+IFS='-' read -r target_type target_version<<EOF
+$target
+EOF
+
+if [ -z "$target_type" ] || [ -z "$target_version" ]; then
   help
   exit 1
 fi
@@ -38,8 +42,10 @@ if [ -z "$force" ] && [ -d "$SHVM_HOME/src/$target" ]; then
   return 0
 fi
 
-tmpfile=$(mktemp)
+if [ ! -d "$SHVM_HOME/usr/${target_type}-support" ] || [ ! -x "$SHVM_HOME/usr/${target_type}-support/fetch" ]; then
+  echo "$target_type not supported"
+  exit 1
+fi
+
 echo "Fetching ${target}..."
-curl -o"$tmpfile"  --progress-bar "ftp://ftp.gnu.org/gnu/bash/${target}.tar.gz"
-tar zxf "$tmpfile" -C "$SHVM_HOME/src"
-rm "$tmpfile"
+"$SHVM_HOME/usr/${target_type}-support/fetch" "$target"

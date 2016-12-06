@@ -1,0 +1,27 @@
+#!/bin/sh
+set -e
+
+[ -z "$1" ] && exit 1
+
+abort() {
+  echo "$@" >&2
+  exit 1
+}
+
+builddir=$(mktemp -d)
+( cd "$builddir"
+
+  echo "Checking build system..."
+  "$SHVM_HOME/src/$1/configure" \
+    --prefix="$SHVM_HOME/lib/$1" 2>/dev/tty >/dev/null \
+    || abort "Failed to configure $1}.
+Make sure that '$SHVM_HOME/src/$1--prefix=$SHVM_HOME/lib/$1' \
+succeeds before install"
+
+  echo "Building ${1}..."
+  make -C "$builddir" install >/dev/null 2>&1 \
+    || abort "Failed to build ${1}.
+Make sure that 'make -C $builddir install' succeeds before install"
+)
+
+rm -rf "$builddir"

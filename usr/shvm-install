@@ -1,11 +1,6 @@
 #!/bin/sh
 set -e
 
-abort() {
-  echo "$@" >&2
-  exit 1
-}
-
 help() {
   echo "Usage: shvm install <target>"
 }
@@ -29,7 +24,11 @@ while test $# != 0; do
   shift
 done
 
-if [ -z "$target" ]; then
+IFS='-' read -r target_type target_version<<EOF
+$target
+EOF
+
+if [ -z "$target_type" ] || [ -z "$target_version" ]; then
   help
   exit 1
 fi
@@ -39,24 +38,15 @@ if [ -d "$SHVM_HOME/lib/$target" ]; then
   return 0
 fi
 
-"$SHVM_HOME/usr/shvm-fetch" "$target" || exit 1
+echo "Fetching ${target}..."
+"$SHVM_HOME/usr/${target_type}-support/fetch" "$target"
 
-builddir=$(mktemp -d)
-( cd "$builddir"
+if [ ! -d "$SHVM_HOME/usr/${target_type}-support" ] || [ ! -x "$SHVM_HOME/usr/${target_type}-support/build" ]; then
+  echo "$target_type not supported"
+  exit 1
+fi
 
-  echo "Checking build system..."
-  "$SHVM_HOME/src/$target/configure" \
-    --prefix="$SHVM_HOME/lib/$target" 2>/dev/tty >/dev/null \
-    || abort "Failed to configure $target}.
-Make sure that '$SHVM_HOME/src/$target --prefix=$SHVM_HOME/lib/$target' \
-succeeds before install"
+"$SHVM_HOME/usr/${target_type}-support/build" "$target"
 
-  echo "Building ${target}..."
-  make -C "$builddir" install >/dev/null 2>&1 \
-    || abort "Failed to build ${target}.
-Make sure that 'make -C $builddir install' succeeds before install"
-)
-
-rm -rf "$builddir"
 echo "$target installed"
 

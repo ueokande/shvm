@@ -1,0 +1,7 @@
+#!/bin/sh
+set -e
+
+bash_list=$(2>/dev/null curl -l 'ftp://ftp.gnu.org/gnu/bash/' | grep '^bash-.*.tar.gz$' | grep -v -- '-doc-')
+for version in $bash_list; do
+  echo "${version%.tar.gz}"
+done

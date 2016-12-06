@@ -2,10 +2,17 @@
 set -e
 
 remote_list() {
-  bash_list=$(2>/dev/null curl -l 'ftp://ftp.gnu.org/gnu/bash/' | grep '^bash-.*.tar.gz$' | grep -v -- '-doc-')
-  for version in $bash_list; do
-    echo "${version%.tar.gz}"
-  done
+  if [ -z "$1" ]; then
+    help
+    exit 1
+  fi
+
+  if [ ! -d "$SHVM_HOME/usr/$1-support" ] || [ ! -x "$SHVM_HOME/usr/$1-support/list" ]; then
+    echo "$1 not supported"
+    exit 1
+  fi
+
+  "$SHVM_HOME/usr/$1-support/list"
 }
 
 current_version() {
@@ -40,14 +47,26 @@ local_list() {
   echo "# => - current"
 }
 
+support_list() {
+  for dir in $SHVM_HOME/usr/*-support; do
+    [ -e "$dir" ] || break
+
+    dir=$(basename "$dir")
+    echo "${dir%-support}"
+  done
+}
+
 help() {
   cat <<EOF
-Usage: shvm list [command]
+Usage: shvm list [local]
+   or: shvm list remote <target>
+   or: shvm support
 
 Avairable commands for shvm list
 
-  local     Show installed bash list in local (default)
-  remote    Show bash list which able to install
+  local     Show installed shell list in local (default)
+  remote    Show shell versions of the target able to install
+  support   Show supported shell types
 EOF
 }
 
@@ -58,10 +77,14 @@ fi
 
 case "$1" in
 remote)
-  remote_list
+  shift
+  remote_list "$1"
   ;;
 local)
   local_list
+  ;;
+support)
+  support_list
   ;;
 --help)
   shift
