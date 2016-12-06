@@ -15,7 +15,7 @@ remote_list() {
   "$SHVM_HOME/usr/$1-support/list"
 }
 
-current_version() {
+current_bash_version() {
   current_bash_path=$(which bash)
   case "$current_bash_path" in
   $SHVM_HOME/lib/bash-*)
@@ -31,13 +31,30 @@ current_version() {
   esac
 }
 
+current_tcsh_version() {
+  current_tcsh_path=$(which tcsh)
+  case "$current_tcsh_path" in
+  $SHVM_HOME/lib/tcsh-*)
+    # current version is in shvm
+    current="${current_tcsh_path#$SHVM_HOME/lib/}"
+    current="${current%/bin/tcsh}"
+    echo "$current"
+    ;;
+  *)
+    # current version is system
+    echo 'system'
+    ;;
+  esac
+}
+
 local_list() {
-  current=$(current_version)
+  current_bash=$(current_bash_version)
+  current_tcsh=$(current_tcsh_version)
   ls -Ad "$SHVM_HOME"/lib/* >/dev/null 2>&1 || exit 0
   echo
   for fullpath in $SHVM_HOME/lib/*; do
     version=$(basename "$fullpath")
-    if [ "$version" = "$current" ]; then
+    if [ "$version" = "$current_bash" ] || [ "$version" = "$current_tcsh" ]; then
       echo "=> $version"
     else
       echo "   $version"

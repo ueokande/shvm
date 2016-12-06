@@ -34,10 +34,10 @@ Usage: shvm [--help] <command> [<args>]
 
 The sub-commands for shvm:
 
-  list        Show currently available bash'es.
-  use         Setup current shell to use a specific bash version.
-  install     Install bash version
-  uninstall   Uninstall bash version
+  list        Show currently available shells
+  use         Setup current shell to use a specific shell versions.
+  install     Install a shell version
+  uninstall   Uninstall a shell version
   help        Display helps
 EOF
 
