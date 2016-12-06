@@ -16,7 +16,7 @@ remote_list() {
 }
 
 current_bash_version() {
-  current_bash_path=$(which bash)
+  current_bash_path=$(which bash) || return 0
   case "$current_bash_path" in
   $SHVM_HOME/lib/bash-*)
     # current version is in shvm
@@ -32,7 +32,7 @@ current_bash_version() {
 }
 
 current_tcsh_version() {
-  current_tcsh_path=$(which tcsh)
+  current_tcsh_path=$(which tcsh) || return 0
   case "$current_tcsh_path" in
   $SHVM_HOME/lib/tcsh-*)
     # current version is in shvm
