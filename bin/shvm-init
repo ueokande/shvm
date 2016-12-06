@@ -3,7 +3,8 @@
 if [ "$_" = "$0" ]; then
   cat << EOS
 shvm-init must be sourced from shell, instead of executable command.
-Add the following line to $HOME/.bash_profile, and restart your shell.
+Add the following line to .bash_profile, .zprofile, or .profile in $HOME,
+and restart your shell.
 
   source $SHVM_HOME/bin/shvm-init
 
@@ -43,7 +44,7 @@ shvm_use() {
   [ -n "$install" ] && "$SHVM_HOME/usr/shvm-install" "$target"
 
   if ! [ -d "$SHVM_HOME/lib/$target" ] || [ "$target" = 'system' ]; then
-    echo "Unknown bash version: $target." >&2
+    echo "Unknown shell version: $target." >&2
     return 1
   fi
 
