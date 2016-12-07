@@ -3,9 +3,8 @@ set -e
 
 help() {
   cat <<EOF
-Usage: shvm use [--default] <version>
+Usage: shvm use <version>
 
-  --default   set the default bash version to <version>
   --install   install the version if it is not in the local
 EOF
 }
