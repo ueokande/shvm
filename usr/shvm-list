@@ -51,17 +51,14 @@ local_list() {
   current_bash=$(current_bash_version)
   current_tcsh=$(current_tcsh_version)
   ls -Ad "$SHVM_HOME"/lib/* >/dev/null 2>&1 || exit 0
-  echo
   for fullpath in $SHVM_HOME/lib/*; do
     version=$(basename "$fullpath")
     if [ "$version" = "$current_bash" ] || [ "$version" = "$current_tcsh" ]; then
-      echo "=> $version"
+      echo "* $version"
     else
-      echo "   $version"
+      echo "  $version"
     fi
   done
-  echo
-  echo "# => - current"
 }
 
 support_list() {
