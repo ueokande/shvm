@@ -24,10 +24,6 @@ current_bash_version() {
     current="${current%/bin/bash}"
     echo "$current"
     ;;
-  *)
-    # current version is system
-    echo 'system'
-    ;;
   esac
 }
 
@@ -39,10 +35,6 @@ current_tcsh_version() {
     current="${current_tcsh_path#$SHVM_HOME/lib/}"
     current="${current%/bin/tcsh}"
     echo "$current"
-    ;;
-  *)
-    # current version is system
-    echo 'system'
     ;;
   esac
 }
