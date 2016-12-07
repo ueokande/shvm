@@ -1,0 +1,9 @@
+#!/bin/sh
+set -e
+
+list=$(curl -sSlL 'ftp://ftp.zsh.org/zsh/old/' 'ftp://ftp.zsh.org/zsh/' |\
+  grep '^zsh-.*.tar.gz$' |\
+  grep -v -- '-doc')
+for version in $list; do
+  echo "${version%.tar.gz}"
+done
