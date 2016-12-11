@@ -1,0 +1,9 @@
+#!/bin/sh
+set -e
+
+git ls-remote --tags https://github.com/fish-shell/fish-shell |\
+  cut -d '/' -f3 |\
+  grep -v '\^{}' |\
+  while read line; do
+    echo "fish-$line"
+  done

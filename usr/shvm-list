@@ -27,25 +27,14 @@ current_bash_version() {
   esac
 }
 
-current_tcsh_version() {
-  current_tcsh_path=$(which tcsh) || return 0
-  case "$current_tcsh_path" in
-  $SHVM_HOME/lib/tcsh-*)
-    # current version is in shvm
-    current="${current_tcsh_path#$SHVM_HOME/lib/}"
-    current="${current%/bin/tcsh}"
-    echo "$current"
-    ;;
-  esac
-}
 
 local_list() {
-  current_bash=$(current_bash_version)
-  current_tcsh=$(current_tcsh_version)
-  ls -Ad "$SHVM_HOME"/lib/* >/dev/null 2>&1 || exit 0
-  for fullpath in $SHVM_HOME/lib/*; do
-    version=$(basename "$fullpath")
-    if [ "$version" = "$current_bash" ] || [ "$version" = "$current_tcsh" ]; then
+  for dir in $SHVM_HOME/lib/*; do
+    [ -e "$dir" ] || break
+
+    version=$(basename "$dir")
+
+    if [ "${PATH#*$dir}" != "$PATH" ]; then
       echo "* $version"
     else
       echo "  $version"
