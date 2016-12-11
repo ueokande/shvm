@@ -1,2 +1,4 @@
+/lib/*
+!/lib/.keep
 /src/*
 !/src/.keep

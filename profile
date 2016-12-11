@@ -1,17 +1,3 @@
-#!/bin/sh
-
-if [ "$_" = "$0" ]; then
-  cat << EOS
-shvm-init must be sourced from shell, instead of executable command.
-Add the following line to .bash_profile, .zprofile, or .profile in $HOME,
-and restart your shell.
-
-  source $SHVM_HOME/bin/shvm-init
-
-EOS
-  exit 1
-fi
-
 shvm_use() {
   install=
   target=

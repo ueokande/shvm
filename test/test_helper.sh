@@ -7,13 +7,14 @@ before_each() {
   mkdir -p $SHVM_HOME/src/bash-X.0
   ln -s $(readlink -f $(dirname $BASH_SOURCE)/../bin) $SHVM_HOME/bin
   cp -r $(readlink -f $(dirname $BASH_SOURCE)/../usr) $SHVM_HOME/usr
+  cp $(readlink -f $(dirname $BASH_SOURCE)/../profile) $SHVM_HOME/profile
   local current_bash_path=$(which bash)
   for dir in $SHVM_HOME/lib/bash-*; do
     mkdir ${dir}/bin
     ln -s $current_bash_path ${dir}/bin/bash
   done
 
-  source ${SHVM_HOME}/bin/shvm-init
+  source ${SHVM_HOME}/profile
 }
 
 after_each() {
