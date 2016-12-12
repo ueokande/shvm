@@ -3,6 +3,6 @@ set -e
 
 [ -z "$1" ] && exit 1
 
-(curl 2>/dev/null -SL# "ftp://ftp.zsh.org/zsh/old${1}.tar.gz" ||\
+(curl 2>/dev/null -SL# "ftp://ftp.zsh.org/zsh/old/${1}.tar.gz" ||\
   curl -SL# "ftp://ftp.zsh.org/zsh/${1}.tar.gz") |\
     tar zxf - -C "$SHVM_HOME/src"
