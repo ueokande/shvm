@@ -1,4 +1,10 @@
 sudo: false
+addons:
+  apt:
+    sources:
+    - debian-sid
+    packages:
+    - shellcheck
 language: bash
 before_install:
 - mkdir $HOME/bin
@@ -6,4 +12,5 @@ before_install:
 - chmod +x $HOME/bin/bashtub
 - export PATH="$HOME/bin:$PATH"
 script:
+- git ls-files usr/ profile | xargs shellcheck
 - bashtub `find test -name '*_test.sh'`
