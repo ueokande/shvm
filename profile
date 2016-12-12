@@ -1,3 +1,5 @@
+#!/bin/sh
+
 shvm_use() {
   install=
   target=
