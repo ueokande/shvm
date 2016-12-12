@@ -1,9 +1,9 @@
 #!/bin/sh
 set -e
 
-list=$(curl -sSlL 'ftp://ftp.astron.com/pub/tcsh/old/' 'ftp://ftp.astron.com/pub/tcsh/' |\
+curl -sSlL 'ftp://ftp.astron.com/pub/tcsh/old/' 'ftp://ftp.astron.com/pub/tcsh/' |\
   grep '^tcsh-.*.tar.gz$' |\
-  grep -v 'exe\|bin\|win32src')
-for version in $list; do
-  echo "${version%.tar.gz}"
-done
+  grep -v 'exe\|bin\|win32src' |\
+  while read line; do
+    echo "${line%.tar.gz}"
+  done
