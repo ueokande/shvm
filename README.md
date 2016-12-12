@@ -1,6 +1,8 @@
 shvm - A Version Manager for Shells
 ===================================
 
+![shvm](screenshot.gif)
+
 Shvm is a command-line tool to easily install and manage multiple shell
 versions in your local environment.
 
