@@ -4,6 +4,6 @@ set -e
 curl -sSlL 'ftp://ftp.astron.com/pub/tcsh/old/' 'ftp://ftp.astron.com/pub/tcsh/' |\
   grep '^tcsh-.*.tar.gz$' |\
   grep -v 'exe\|bin\|win32src' |\
-  while read line; do
+  while read -r line; do
     echo "${line%.tar.gz}"
   done

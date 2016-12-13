@@ -4,6 +4,6 @@ set -e
 curl -sSl 'ftp://ftp.gnu.org/gnu/bash/' |\
   grep '^bash-.*.tar.gz$' |\
   grep -v -- '-doc-' |\
-  while read line; do
+  while read -r line; do
     echo "${line%.tar.gz}"
   done
