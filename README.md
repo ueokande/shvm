@@ -1,6 +1,8 @@
 shvm - A Version Manager for Shells
 ===================================
 
+![shvm](screenshot.gif)
+
 Shvm is a command-line tool to easily install and manage multiple shell
 versions in your local environment.
 
@@ -48,9 +50,9 @@ shvm list local
 bash --version
 ```
 
-### Use another shell versions
+### Use various shell versions
 
-You can see another supported shells and use it like this
+You can see another supported shells and use it like this:
 
 ```sh
 # List supported shells
@@ -60,7 +62,7 @@ shvm list support
 shvm list remote fish
 
 # Install and use fish-2.0.0
-shvm use  --install fish-2.0.0
+shvm use --install fish-2.0.0
 
 # List installed shells in a local disk
 shvm list local
