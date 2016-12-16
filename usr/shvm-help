@@ -35,7 +35,8 @@ Usage: shvm [--help] <command> [<args>]
 The sub-commands for shvm:
 
   list        Show currently available shells
-  use         Setup current shell to use a specific shell versions.
+  use         Setup current shell to use a specific shell versions
+  fetch       Fetch source of a shell version
   install     Install a shell version
   uninstall   Uninstall a shell version
   help        Display helps
