@@ -30,7 +30,8 @@ elif (hash "shvm-${target}" 2>/dev/null) then
   "shvm-${target}" --help
 else
   cat <<EOF
-Usage: shvm [--help] <command> [<args>]
+Usage: shvm [--help] [--version]
+   or: shvm <command> [<args>]
 
 The sub-commands for shvm:
 
